@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Alumno_Curso extends Model
 {
+    protected $table = "alumno_curso";
     protected $fillable = ["alumno_id", "curso_id"];
     protected $hidden = ["created_at","updated_at"];
 

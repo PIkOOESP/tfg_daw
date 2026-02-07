@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alumno extends Model
 {
-    protected $hidden = ["created_at","updated_at"];
+    protected $table = "alumno";
     protected $fillable = ["nombre","apellido","nre"];
+    protected $hidden = ["updated_at","created_at"];
 }
