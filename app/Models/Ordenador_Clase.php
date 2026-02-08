@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Ordenador_Clase extends Model
 {
@@ -30,7 +31,7 @@ class Ordenador_Clase extends Model
     /**
      * Define la relación de pertenencia con el modelo Ordenador.
      * 
-     * @return belongsTo
+     * @return BelongsTo
      */
     function ordenador(){
         return $this -> belongsTo(Ordenador::class);
@@ -39,7 +40,7 @@ class Ordenador_Clase extends Model
     /**
      * Define la relación de pertenencia con el modelo Clase.
      * 
-     * @return belongsTo
+     * @return BelongsTo
      */
     function clase(){
         return $this -> belongsTo(Clase::class);

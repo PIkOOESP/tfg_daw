@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enum\IncidenciaStatus;
+use App\Enums\IncidenciaStatus;
 use App\Models\Incidencia;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,7 +19,7 @@ class IncidenciaSeeder extends Seeder
             'descripcion' => 'La pantalla del ordenador no funciona correctamente.',
             'fecha' => '2024-05-01',
             'ordenador_id' => 1,
-            'status' => IncidenciaStatus::AVERIADO,
+            'status' => IncidenciaStatus::AVERIADO -> value,
         ]);
 
         Incidencia::create([

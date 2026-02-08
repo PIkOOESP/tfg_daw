@@ -1,0 +1,126 @@
+<?php
+
+namespace App\Services;
+
+use App\Exceptions\NotFoundAlumnoCursoException;
+use App\Exceptions\NotFoundClaseException;
+use App\Exceptions\NotFoundCursoException;
+use App\Exceptions\NotFoundOrdenadorClaseException;
+use App\Models\Alumno_Curso;
+use App\Models\Clase;
+use App\Models\Clase_Alumno_Curso;
+use App\Models\Curso;
+use App\Models\Ordenador;
+use App\Models\Ordenador_Clase;
+use Illuminate\Http\Response;
+
+class ClaseAlumnoService
+{
+    /**
+     * Create a new class instance.
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    public function filtrar($value){
+        $this -> existClase($value['clase_id']);
+        $this -> existCurso($value["curso_id"]);
+        $claseAlumno = new Clase_Alumno_Curso();
+        $query = $claseAlumno ->from("clase_alumno_curso as cac")
+        ->leftJoin('alumno_curso as ac', 'cac.alumno_curso_id', '=', 'ac.id') 
+        ->leftJoin('alumno as a', 'ac.alumno_id', '=', 'a.id')
+        ->leftJoin('ordenador_clase as oc', 'cac.ordenador_clase_id', '=', 'oc.id')
+        ->leftJoin('ordenador as o',"oc.ordenador_id","=","o.id")
+        ->where('ac.curso_id',"=", $value["curso_id"]) 
+        ->where('oc.clase_id',"=", $value["clase_id"]) 
+        ->select('a.nombre as nombre_alumno', "a.apellido as apellido_alumno", "o.nombre as nombre_ordenador", "o.id")
+        ->orderBy("o.id","asc") 
+        ->distinct()
+        ->get();
+
+        return $query;
+    }
+
+    public function mostrarOrdenador($id){
+        $this -> existClase($id);
+        $ordenador = new Ordenador_Clase();
+        $query = $ordenador -> from('ordenador_clase as oc')
+        ->leftJoin("ordenador as o", "oc.ordenador_id", "=", "o.id")
+        ->where("oc.clase_id", $id)
+        ->select("o.id as ordenador_id", "o.nombre as nombre_ordenador", "oc.id")
+        ->orderBy("o.id", "asc")
+        ->get();
+
+        return $query;
+    }
+
+    public function mostrarAlumno($id){
+        $this -> existCurso($id);
+        $alumno = new Alumno_Curso();
+        $query = $alumno -> from("alumno_curso as ac")
+        ->leftJoin("alumno as a", "ac.alumno_id", "=", "a.id")
+        ->where("ac.curso_id", $id)
+        ->select("a.nombre as nombre_alumno", "a.apellido as apellido_alumno", "ac.id")
+        ->orderBy("a.nombre", "asc")
+        ->get();
+
+        return $query;
+    }
+
+    public function mostrarEditar($value){
+        $claseAlumno = new Clase_Alumno_Curso();
+        $query = $claseAlumno ->from("clase_alumno_curso as cac")
+        ->leftJoin('alumno_curso as ac', 'cac.alumno_curso_id', '=', 'ac.id') 
+        ->leftJoin('alumno as a', 'ac.alumno_id', '=', 'a.id')
+        ->leftJoin('ordenador_clase as oc', 'cac.ordenador_clase_id', '=', 'oc.id')
+        ->leftJoin('ordenador as o',"oc.ordenador_id","=","o.id")
+        ->where('ac.curso_id',"=", $value["curso_id"]) 
+        ->where('oc.clase_id',"=", $value["clase_id"]) 
+        ->select('a.nombre as nombre_alumno', "a.apellido as apellido_alumno", "o.id", "cac.id")
+        ->orderBy("o.id","asc")
+        ->get();
+
+        return $query;
+    }
+
+    public function editarClase(){
+        
+    }
+
+    public function crearClase($value){
+        foreach ($value as $valor) {
+            $this -> existOrdenadorClase($valor['ordenador_clase_id']);
+            $this -> existAlumnoCurso($valor['alumno_curso_id']);
+
+            $clase = new Clase_Alumno_Curso();
+            $clase -> fill($valor);
+            $clase -> save();
+        }
+    }
+
+    private function existClase($id){
+        $clase = Clase::find($id);
+
+        if(empty($clase)) throw new NotFoundClaseException("Clase no encontrada", Response::HTTP_NOT_FOUND);
+    }
+
+    private function existCurso($id){
+        $curso = Curso::find($id);
+
+        if(empty($curso)) throw new NotFoundCursoException("Curso no encontrado", Response::HTTP_NOT_FOUND);
+    }
+
+    private function existOrdenadorClase($id){
+        $ordenadorClase = Ordenador_Clase::find($id);
+
+        if(empty($ordenadorClase)) throw new NotFoundOrdenadorClaseException("Ordenador no encontrado", Response::HTTP_NOT_FOUND);
+    }
+
+    private function existAlumnoCurso($id){
+        $alumnoCurso = Alumno_Curso::find($id);
+
+        if(empty($alumnoCurso)) throw new NotFoundAlumnoCursoException("Alumno no encontrado", Response::HTTP_NOT_FOUND);
+    }
+}

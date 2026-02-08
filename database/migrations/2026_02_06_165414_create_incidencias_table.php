@@ -1,6 +1,6 @@
 <?php
 
-use App\Enum\IncidenciaStatus;
+use App\Enums\IncidenciaStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('titulo');
             $table->text('descripcion');
             $table->date('fecha');
-            $table->foreignId('ordenador_id')->constrained('ordenador')->onDelete('cascade');
-            $table->enum("status", IncidenciaStatus::values())->default(IncidenciaStatus::ARREGLADO->value);
+            $table->foreignId('ordenador_id')->constrained('ordenador')->cascadeOnDelete();
+            $table->enum("status", IncidenciaStatus::values())->default(IncidenciaStatus::AVERIADO);
             $table->timestamps();
         });
     }

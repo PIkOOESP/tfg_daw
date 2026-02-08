@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Clase;
 use App\Models\Clase_Alumno_Curso;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ClaseAlumnoCursoSeeder extends Seeder

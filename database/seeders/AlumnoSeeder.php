@@ -16,25 +16,25 @@ class AlumnoSeeder extends Seeder
         Alumno::create([
             'nombre' => 'Juan',
             'apellido' => 'Pérez',
-            'email' => 'juan.perez@example.com',
+            "nre" => "168451"
         ]);
 
         Alumno::create([
             'nombre' => 'María',
             'apellido' => 'Gómez',
-            'email' => 'maria.gomez@example.com',
+            "nre" => "894512"
         ]);
 
         Alumno::create([
             'nombre' => 'Carlos',
             'apellido' => 'López',
-            'email' => 'carlos.lopez@example.com',
+            "nre" => "6845165"
         ]);
 
         Alumno::create([
             'nombre' => 'Ana',
             'apellido' => 'Martínez',
-            'email' => 'ana.martinez@example.com',
+            "nre" => "165321"
         ]);
     }
 }

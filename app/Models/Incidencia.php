@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Enum\IncidenciaStatus;
+use App\Enums\IncidenciaStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Incidencia extends Model
 {
@@ -31,7 +32,7 @@ class Incidencia extends Model
     /**
      * Define la relación de pertenencia con el modelo Ordenador.
      * 
-     * @return belongsTo
+     * @return BelongsTo
      */
     function ordenador(){
         return $this -> belongsTo(Ordenador::class);
@@ -45,7 +46,7 @@ class Incidencia extends Model
     protected function casts()
     {
         return[
-            "status" => IncidenciaStatus::values()
+            "status" => IncidenciaStatus::class
         ];
     }
 }
