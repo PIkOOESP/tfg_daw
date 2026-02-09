@@ -22,14 +22,22 @@ class OrdenadorClaseSeeder extends Seeder
             'ordenador_id' => 2,
             'clase_id' => 1
         ]);
-
         Ordenador_Clase::create([
             'ordenador_id' => 3,
+            'clase_id' => 1
+        ]);
+        Ordenador_Clase::create([
+            'ordenador_id' => 4,
+            'clase_id' => 1
+        ]);
+
+        Ordenador_Clase::create([
+            'ordenador_id' => 5,
             'clase_id' => 2
         ]);
 
         Ordenador_Clase::create([
-            'ordenador_id' => 4,
+            'ordenador_id' => 6,
             'clase_id' => 2
         ]);
     }

@@ -53,12 +53,34 @@
             </div>
         </nav>
 
-    <?php
-    echo "<pre>";
-    if(isset($claseAlumno))  var_dump($claseAlumno);
-    echo "</pre>";
-    die(); 
-?>
+    <div class="container mt-4">
+        <div class="row">
+            @foreach ($claseAlumno as $item)
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center border-dark">
+                        <div class="card-header bg-dark text-white">
+                            <strong>Ordenador Nº{{ $item->nombre_ordenador }}</strong>
+                        </div>
+                        @if($item->nombre_alumno)
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $item->nombre_alumno.' '.$item->apellido_alumno }}</h5>
+                        </div>
+                        <div class="card-footer py-1">
+                            <small class="text-danger">● Ocupado</small>
+                        </div>
+                        @else
+                        <div class="card-body">
+                            <h5 class="card-title"></h5>
+                        </div>
+                        <div class="card-footer py-1">
+                            <small class="text-success">● Disponible</small>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
