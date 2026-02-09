@@ -13,9 +13,16 @@ Route::post('/clase/filtrar', [ClaseAlumnoController::class, 'filtrar'])->name('
 Route::get("/clase", [ClaseAlumnoController::class, "vista"])->name('claseAlumno.vista');
 
 // Rutas para crear una clase
-Route::post("/clase/crear/mostrar",[ClaseAlumnoController::class, "mostrarCrearEditar"])->name('claseAlumno.mostrar');
+Route::post("/clase/crear/mostrar",[ClaseAlumnoController::class, "mostrarCrear"])->name('claseAlumno.mostrar');
 Route::post("/clase/crear/request", [ClaseAlumnoController::class, "crear"])->name('claseAlumno.crear');
 Route::get("/clase/crear", [ClaseAlumnoController::class, "vistaCrear"])->name('claseAlumno.vistaCrear');
 
-//Rutas para editar una clase
-Route::post("/clase/editar/request", [ClaseAlumnoController::class, "editar"])->name('claseAlumno.editar');
+/*Rutas para editar una clase || Esta ruta está en cuarentena de momento
+Route::post("/clase/editar/request", [ClaseAlumnoController::class, "editar"])->name('claseAlumno.editar');*/
+
+//Rutas para mini crear
+Route::get("/clase/minicrear",[ClaseAlumnoController::class, 'vistaMiniCrear']) -> name('claseAlumno.vistaMiniCrear');
+Route::post("/clase/minicrear/request", [ClaseAlumnoController::class, 'miniCrear']) -> name("claseAlumno.miniCrear");
+
+//Rutas para mini borrar
+Route::delete("/clase/miniborrar", [ClaseAlumnoController::class, 'miniBorrar']) -> name('claseAlumno.miniBorrar');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CrearClaseRequest;
 use App\Http\Requests\EditarClaseRequest;
 use App\Http\Requests\FilterClaseAlumnoRequest;
+use App\Http\Requests\MiniDeleteRequest;
 use App\Models\Clase;
 use App\Models\Curso;
 use App\Services\ClaseAlumnoService;
@@ -25,7 +26,7 @@ class ClaseAlumnoController extends Controller
         $clases = Clase::get();
         $cursos = Curso::get();
 
-        return view('clase',compact('claseAlumno', "clases", "cursos", 'ordenadores'));
+        return view('clase',compact('claseAlumno', "clases", "cursos", 'ordenadores', 'value'));
     }
 
     public function vista(){
@@ -42,7 +43,7 @@ class ClaseAlumnoController extends Controller
         return view('crear', compact( 'clases', 'cursos' ));
     }
 
-    public function mostrarCrearEditar(FilterClaseAlumnoRequest $request){
+    public function mostrarCrear(FilterClaseAlumnoRequest $request){
         $value = $request ->all();
 
         $clases = Clase::get();
@@ -50,13 +51,8 @@ class ClaseAlumnoController extends Controller
 
         $ordenadores = $this -> claseAlumnoService -> mostrarOrdenador($value['clase_id']);
         $alumnos = $this -> claseAlumnoService -> mostrarAlumno($value['curso_id']);
-        $editar = $this -> claseAlumnoService -> mostrarEditar($value);
 
-        if($editar == null){
-            return view('crear', compact('ordenadores', 'alumnos', 'clases', 'cursos'));
-        }
-
-        return view('crear', compact('ordenadores', 'alumnos', 'editar', 'clases', 'cursos'));
+        return view('crear', compact('ordenadores', 'alumnos', 'clases', 'cursos', 'value'));
     }
 
     public function crear(CrearClaseRequest $request){
@@ -67,11 +63,19 @@ class ClaseAlumnoController extends Controller
         return view('clase');
     }
 
+    public function miniBorrar(MiniDeleteRequest $request){
+        $value = $request -> all();
+        $this -> claseAlumnoService -> miniBorrarClaseAlumnoCurso($value['clase_alumno_curso_id']);
+        
+        return redirect() ->back();
+    }
+
+    /* Esta funcion esta en cuarentena de momento
     public function editar(EditarClaseRequest $request){
         $value = $request ->all();
 
         $this -> claseAlumnoService -> editarClase($value);
 
         return view('clase');
-    }
+    }*/
 }

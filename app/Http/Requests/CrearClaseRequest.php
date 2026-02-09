@@ -20,6 +20,8 @@ class CrearClaseRequest extends FormRequest
         return [
             "asignaciones" =>'required|array|min:1',
             "asignaciones.*.alumno_curso_id" => "required|integer|min:1",
+            "curso_id" => "required|integer|min:1",
+            "clase_id" => "required|integer|min:1",
             "asignaciones.*.ordenador_clase_id" => "required|integer|min:1"
         ];
     }

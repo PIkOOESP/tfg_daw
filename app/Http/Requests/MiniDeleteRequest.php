@@ -8,9 +8,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 
-class EditarClaseRequest extends FormRequest
+class MiniDeleteRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -19,14 +18,12 @@ class EditarClaseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "asignaciones" => 'required|array|min:1',
-            "asignaciones.*.alumno_curso_id" => "required|integer|min:1",
-            "asignaciones.*.clase_alumno_curso_id" => "required|integer|min:1"
+            "clase_alumno_curso_id" => "required|integer|min:1"
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    protected function failedV(Validator $validator)
     {
-        throw new HttpResponseException(ApiResponse::error($validator ->errors(), "Error de validaciones", Response::HTTP_PRECONDITION_FAILED));
+        throw new HttpResponseException(ApiResponse::error($validator->errors(),"Error en las validaciones",Response::HTTP_PRECONDITION_FAILED));
     }
 }

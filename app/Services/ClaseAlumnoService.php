@@ -11,7 +11,6 @@ use App\Models\Alumno_Curso;
 use App\Models\Clase;
 use App\Models\Clase_Alumno_Curso;
 use App\Models\Curso;
-use App\Models\Ordenador;
 use App\Models\Ordenador_Clase;
 use Illuminate\Http\Response;
 
@@ -38,7 +37,6 @@ class ClaseAlumnoService
         ->where('oc.clase_id',"=", $value["clase_id"]) 
         ->select('a.nombre as nombre_alumno', "a.apellido as apellido_alumno", "o.nombre as nombre_ordenador", "o.id")
         ->orderBy("o.id","asc") 
-        ->distinct()
         ->get();
 
         return $query;
@@ -69,7 +67,7 @@ class ClaseAlumnoService
 
         return $query;
     }
-
+/* Funcion en cuarentena de momento.
     public function mostrarEditar($value){
         $claseAlumno = new Clase_Alumno_Curso();
         $query = $claseAlumno ->from("clase_alumno_curso as cac")
@@ -87,7 +85,7 @@ class ClaseAlumnoService
             return null;
         }
         return $query;
-    }
+    }     
 
     public function editarClase($value){
         foreach($value as $valor){
@@ -98,9 +96,10 @@ class ClaseAlumnoService
             $editar -> alumno_curso_id = $valor['alumno_curso_id'];
             $editar -> save();
         }
-    }
+    }*/
 
     public function crearClase($value){
+        $this -> deleteClaseAlumnoCurso($value['clase_id'], $value['curso_id']);
         foreach ($value as $valor) {
             $this -> existOrdenadorClase($valor['ordenador_clase_id']);
             $this -> existAlumnoCurso($valor['alumno_curso_id']);
@@ -109,6 +108,24 @@ class ClaseAlumnoService
             $clase -> fill($valor);
             $clase -> save();
         }
+    }
+
+    private function deleteClaseAlumnoCurso($clase_id, $curso_id){
+        $claseAlumnoCurso = new Clase_Alumno_Curso();
+
+        $query = $claseAlumnoCurso ->from("clase_alumno_curso as cac")
+        ->leftJoin('alumno_curso as ac', 'cac.alumno_curso_id', '=', 'ac.id') 
+        ->leftJoin('ordenador_clase as oc', 'cac.ordenador_clase_id', '=', 'oc.id')
+        ->where('ac.curso_id',"=", $curso_id) 
+        ->where('oc.clase_id',"=", $clase_id) 
+        ->pluck("cac.id");
+        
+        $claseAlumnoCurso->whereIn('id', $query)->delete();
+    }
+
+    public function miniBorrarClaseAlumnoCurso($id){
+        $this -> existClaseAlumnoCurso($id);
+        Clase_Alumno_Curso::findOrFail($id)->delete();
     }
 
     private function existClase($id){
