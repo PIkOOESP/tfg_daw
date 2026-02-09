@@ -21,20 +21,17 @@ class ClaseAlumnoController extends Controller
         $value = $validator->all();
 
         $claseAlumno = $this -> claseAlumnoService -> filtrar($value);
+        $clases = Clase::get();
+        $cursos = Curso::get();
 
-        return redirect() 
-        -> route('claseAlumno.vista') 
-        -> withInput() 
-        -> with("clase", $claseAlumno);
+        return view('clase',compact('claseAlumno', "clases", "cursos"));
     }
 
     public function vista(){
         $clases = Clase::get();
         $cursos = Curso::get();
 
-        $claseAlumno = session('clase');
-
-        return view('clase', compact('claseAlumno', "clases", "cursos"));
+        return view('clase', compact("clases", "cursos"));
     }
 
     public function vistaCrear(){

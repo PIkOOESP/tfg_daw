@@ -22,7 +22,8 @@
 
                 <div class="collapse navbar-collapse" id="filtrosHeader">
                     <form action="{{ route('claseAlumno.filtrar') }}" method="POST" class="d-flex ms-auto gap-2">
-                        @csrf <div class="input-group input-group-sm">
+                        @csrf 
+                        <div class="input-group input-group-sm">
                             <span class="input-group-text">Curso</span>
                             <select name="curso_id" class="form-select">
                                 <option value="">Seleccionar...</option>
@@ -54,7 +55,7 @@
 
     <?php
     echo "<pre>";
-    var_dump($claseAlumno);
+    if(isset($claseAlumno))  var_dump($claseAlumno);
     echo "</pre>";
     die(); 
 ?>
