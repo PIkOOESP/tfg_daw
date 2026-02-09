@@ -32,5 +32,13 @@ class OrdenadorSeeder extends Seeder
             'nombre' => '4',
             'estado' => false,
         ]);
+        Ordenador::create([
+            'nombre' => '5',
+            'estado' => false,
+        ]);
+        Ordenador::create([
+            'nombre' => '6',
+            'estado' => false,
+        ]);
     }
 }
