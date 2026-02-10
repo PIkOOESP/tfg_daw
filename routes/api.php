@@ -9,7 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 // Rutas para visualizar las clases
-Route::post('/clase/filtrar', [ClaseAlumnoController::class, 'filtrar'])->name('claseAlumno.filtrar');
+Route::get('/clase/filtrar', [ClaseAlumnoController::class, 'filtrar'])->name('claseAlumno.filtrar');
 Route::get("/clase", [ClaseAlumnoController::class, "vista"])->name('claseAlumno.vista');
 
 // Rutas para crear una clase

@@ -64,19 +64,19 @@ class ClaseAlumnoController extends Controller
     }
 
     public function miniBorrar(MiniDeleteRequest $request){
-        $value = $request -> all();
-        $this -> claseAlumnoService -> miniBorrarClaseAlumnoCurso($value['clase_alumno_curso_id']);
+        $ids = $request -> all();
+        $this -> claseAlumnoService -> miniBorrarClaseAlumnoCurso($ids['clase_alumno_curso_id']);
 
-        $ids =[
-            "clase_id" =>$value['clase_id'],
-            "curso_id"=>$value['curso_id']
+        $value =[
+            "clase_id" =>$ids['clase_id'],
+            "curso_id"=>$ids['curso_id']
         ];
         $claseAlumno = $this -> claseAlumnoService -> filtrar($ids);
         $ordenadores = $this -> claseAlumnoService -> mostrarOrdenador($value['clase_id']);
         $clases = Clase::get();
         $cursos = Curso::get();
         
-        return view('clase',compact('claseAlumno', "clases", "cursos", 'ordenadores', 'ids'));
+        return view('clase',compact('claseAlumno', "clases", "cursos", 'ordenadores', 'value'));
     }
 
     /* Esta funcion esta en cuarentena de momento

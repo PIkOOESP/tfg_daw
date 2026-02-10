@@ -22,14 +22,14 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="filtrosHeader">
-                    <form action="{{ route('claseAlumno.filtrar') }}" method="POST" class="d-flex ms-auto gap-2">
+                    <form action="{{ route('claseAlumno.filtrar') }}" method="GET" class="d-flex ms-auto gap-2">
                         @csrf 
                         <div class="input-group input-group-sm">
                             <span class="input-group-text">Curso</span>
                             <select name="curso_id" class="form-select">
                                 <option value="">Seleccionar...</option>
                                 @foreach($cursos as $curso)
-                                    <option value="{{ $curso->id }}" {{ old('curso_id') == $curso->id ? 'selected' : '' }}>
+                                    <option value="{{ $curso->id }}" {{ isset($value)? $value['curso_id'] == $curso->id ? 'selected' : '' : "" }}>
                                         {{ $curso->nombre }}
                                     </option>
                                 @endforeach
@@ -41,7 +41,7 @@
                             <select name="clase_id" class="form-select">
                                 <option value="">Seleccionar...</option>
                                 @foreach($clases as $clase)
-                                    <option value="{{ $clase->id }}" {{ old('clase_id') == $clase->id ? 'selected' : '' }}>
+                                    <option value="{{ $clase->id }}" {{ isset($value)? $value['clase_id'] == $clase->id ? 'selected' : '' : "" }}>
                                         {{ $clase->nombre }}
                                     </option>
                                 @endforeach
