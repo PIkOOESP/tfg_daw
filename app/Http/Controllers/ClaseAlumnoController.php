@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CrearClaseRequest;
 use App\Http\Requests\EditarClaseRequest;
 use App\Http\Requests\FilterClaseAlumnoRequest;
+use App\Http\Requests\MiniCrearRequest;
 use App\Http\Requests\MiniDeleteRequest;
 use App\Models\Clase;
 use App\Models\Curso;
@@ -23,10 +24,11 @@ class ClaseAlumnoController extends Controller
 
         $claseAlumno = $this -> claseAlumnoService -> filtrar($value);
         $ordenadores = $this -> claseAlumnoService -> mostrarOrdenador($value['clase_id']);
+        $alumnos = $this -> claseAlumnoService -> alumnosSinOrdenador($validator['curso_id']);
         $clases = Clase::get();
         $cursos = Curso::get();
 
-        return view('clase',compact('claseAlumno', "clases", "cursos", 'ordenadores', 'value'));
+        return view('clase',compact('claseAlumno', "clases", "cursos", 'ordenadores', 'value', 'alumnos'));
     }
 
     public function vista(){
@@ -75,8 +77,13 @@ class ClaseAlumnoController extends Controller
         $ordenadores = $this -> claseAlumnoService -> mostrarOrdenador($value['clase_id']);
         $clases = Clase::get();
         $cursos = Curso::get();
-        
-        return view('clase',compact('claseAlumno', "clases", "cursos", 'ordenadores', 'value'));
+        return redirect()->back();
+    }
+
+    public function miniCrear(MiniCrearRequest $request){
+        $value = $request ->all();
+        $this -> claseAlumnoService -> miniCrear($value);
+        return redirect() ->back();
     }
 
     /* Esta funcion esta en cuarentena de momento

@@ -45,4 +45,15 @@ class Alumno_Curso extends Model
     function curso(){
         return $this -> belongsTo(Curso::class);
     }
+
+    public function ordenadores() 
+{
+    // belongsToMany(Modelo_Destino, tabla_pivote, fk_este_modelo, fk_modelo_destino)
+    return $this->belongsToMany(
+        Ordenador_Clase::class, 
+        'clase_alumno_curso', 
+        'alumno_curso_id', 
+        'ordenador_clase_id'
+    );
+}
 }

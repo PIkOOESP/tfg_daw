@@ -128,6 +128,23 @@ class ClaseAlumnoService
         Clase_Alumno_Curso::findOrFail($id)->delete();
     }
 
+    public function miniCrear($value){
+        $this -> existAlumnoCurso($value['alumno_curso_id']);
+        $this -> existOrdenadorClase($value("ordenador_clase_id"));
+        $this -> existAsignacion($value("ordenador_clase_id"),$value['alumno_curso_id']);
+
+        $asignacion = new Clase_Alumno_Curso();
+        $asignacion -> fill($value);
+        $asignacion -> save();
+    }
+
+    public function alumnosSinOrdenador($id){
+        return Alumno_Curso::where('curso_id', $id)
+        ->whereDoesntHave('ordenadores')
+        ->with('alumno')
+        ->get();
+    }
+
     private function existClase($id){
         $clase = Clase::find($id);
 
@@ -156,5 +173,13 @@ class ClaseAlumnoService
         $claseAlumnoCurso = Clase_Alumno_Curso::find($id);
 
         if(empty($claseAlumnoCurso)) throw new NotFoundClaseAlumnoCursoException("ClaseAlumnoCurso no encontrado", Response::HTTP_NOT_FOUND);
+    }
+
+    private function existAsignacion($clase_id, $curso_id){
+        $asignacion = Clase_Alumno_Curso::where('alumno_curso_id',$curso_id)
+        ->where('ordenador_clase_id',$clase_id) 
+        ->get();
+
+        if(!empty($asignacion)) return redirect()->back();
     }
 }
