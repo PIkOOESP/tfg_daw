@@ -15,7 +15,6 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('claseAlumno.vista') }}">Panel de Control</a>
-                <a class="navbar-brand" href="{{route('claseAlumno.vistaCrear')}}"><button>Crear/editar</button></a>
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#filtrosHeader">
                     <span class="navbar-toggler-icon"></span>
@@ -77,13 +76,26 @@
                                             <i class="bi bi-person-x"></i> Liberar PC
                                         </button>
                                     </form>
+                                    </br>
                                     <div class="card-footer py-1">
                                         <small class="text-danger">● Ocupado</small>
                                     </div>
                                 @else
-                                    <div class="card-body">
-                                        <h5 class="card-title">&nbsp;</h5>
-                                    </div>
+                                    <form action="{{ route('claseAlumno.miniCrear', ['ordenador_clase_id' => $item->id, 'curso_id' => $value['curso_id'], 'clase_id' => $value['clase_id']]) }}" method="POST" class="mt-2">
+                                    @csrf    
+                                    <select name="alumno_clase_id" class="form-select">
+                                        @foreach($alumnos as $alumno)
+                                        <option value="{{ $alumno->id }}" {{ isset($alumno)? $alumno['alumno_id'] == $alumno->id ? 'selected' : '' : "" }}>
+                                            {{ $alumno->alumno->nombre }} {{ $alumno->alumno->apellido }}
+                                        </option>
+                                    @endforeach
+                                    </select>
+                                    </br>
+                                    <button type="submit" class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-person"></i> Asignar PC
+                                    </button>
+                                    </form>
+                                    </br>
                                     <div class="card-footer py-1">
                                         <small class="text-success">● Disponible</small>
                                     </div>
