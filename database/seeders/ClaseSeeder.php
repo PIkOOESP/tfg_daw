@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Clase;
+use App\Models\AulasModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,15 +13,15 @@ class ClaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Clase::create([
+        AulasModel::create([
             'nombre' => 'Aula 22',
         ]);
 
-        Clase::create([
+        AulasModel::create([
             'nombre' => 'Aula 23',
         ]);
 
-        Clase::create([
+        AulasModel::create([
             'nombre' => 'Aula 24',
         ]);
     }

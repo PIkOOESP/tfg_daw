@@ -2,11 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\ApiResponse;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Response;
 
 class MiniCrearRequest extends FormRequest
 {
@@ -18,13 +14,17 @@ class MiniCrearRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "alumno_curso_id" => "required|integer|min:1",
-            "ordenador_clase_id" => "required|integer|min:1"
+            "alumno_id" => "required|integer|min:1",
+            "ordenador_id" => "required|integer|min:1"
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    public function messages(): array
     {
-        throw new HttpResponseException(ApiResponse::error($validator->errors(),"Error en las validaciones",Response::HTTP_PRECONDITION_FAILED));
+        return [
+            'alumno_id.required' => 'Es necesario seleccionar un alumno.',
+            'ordenador_id.required' => 'Debe asignar un ordenador al alumno.',
+            'ordenador_id.min' => 'El ordenador seleccionado no es válido.',
+        ];
     }
 }

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Alumno_Curso extends Model
+class CursosAlumnosModel extends Model
 {
     /**
      * El nombre de la tabla asociada al modelo.
      * 
      * @var string
      */
-    protected $table = "alumno_curso";
+    protected $table = "cursos_alumnos";
 
     /**
      * Los atributos que son asignables en masa.
@@ -33,8 +33,8 @@ class Alumno_Curso extends Model
      * 
      * @return BelongsTo
      */
-    function alumno(){
-        return $this -> BelongsTo(Alumno::class);
+    function alumnos(){
+        return $this -> BelongsTo(AlumnosModel::class);
     }
 
     /**
@@ -42,18 +42,8 @@ class Alumno_Curso extends Model
      * 
      * @return BelongsTo
      */
-    function curso(){
-        return $this -> belongsTo(Curso::class);
-    }
+    function cursos(){
+        return $this -> belongsTo(CursosModel::class);
+    } 
 
-    public function ordenadores() 
-{
-    // belongsToMany(Modelo_Destino, tabla_pivote, fk_este_modelo, fk_modelo_destino)
-    return $this->belongsToMany(
-        Ordenador_Clase::class, 
-        'clase_alumno_curso', 
-        'alumno_curso_id', 
-        'ordenador_clase_id'
-    );
-}
 }

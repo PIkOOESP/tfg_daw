@@ -4,21 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ordenador extends Model
+class AlumnosModel extends Model
 {
     /**
      * El nombre de la tabla asociada al modelo.
      * 
      * @var string
      */
-    protected $table = "ordenador";
+    protected $table = "alumnos";
 
     /**
      * Los atributos que son asignables en masa.
      * 
      * @var list<string>
      */
-    protected $fillable = ["nombre", "estado"];
+    protected $fillable = ["nombre","apellido","nre"];
 
     /**
      * Los atributos que deben ocultarse para la serialización.

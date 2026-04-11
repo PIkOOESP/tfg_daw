@@ -2,24 +2,25 @@
 
 namespace App\Models;
 
+use App\Enums\IncidenciaStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Ordenador_Clase extends Model
+class IncidenciasModel extends Model
 {
     /**
      * El nombre de la tabla asociada al modelo.
      * 
      * @var string
      */
-    protected $table = "ordenador_clase";
+    protected $table = "incidencias";
 
     /**
      * Los atributos que son asignables en masa.
      * 
      * @var list<string>
      */
-    protected $fillable = ["ordenador_id", "clase_id"];
+    protected $fillable = ["fecha", "ordenador_id", "descripcion", "titulo", "resuelto"];
 
     /**
      * Los atributos que deben ocultarse para la serialización.
@@ -33,16 +34,19 @@ class Ordenador_Clase extends Model
      * 
      * @return BelongsTo
      */
-    function ordenador(){
-        return $this -> belongsTo(Ordenador::class);
+    function ordenadores(){
+        return $this -> belongsTo(OrdenadoresModel::class);
     }
 
     /**
-     * Define la relación de pertenencia con el modelo Clase.
+     * Los atributos que deben ser casts.
      * 
-     * @return BelongsTo
+     * @return array<string, string>
      */
-    function clase(){
-        return $this -> belongsTo(Clase::class);
+    protected function casts()
+    {
+        return[
+            "status" => IncidenciaStatus::class
+        ];
     }
 }

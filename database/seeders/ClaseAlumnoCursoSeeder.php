@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Clase_Alumno_Curso;
+use App\Models\AsignacionesOrdenadoresModel;
 use Illuminate\Database\Seeder;
 
 class ClaseAlumnoCursoSeeder extends Seeder
@@ -12,24 +12,24 @@ class ClaseAlumnoCursoSeeder extends Seeder
      */
     public function run(): void
     {
-        Clase_Alumno_Curso::create([
-            'ordenador_clase_id' => 1,
-            'alumno_curso_id' => 1
+        AsignacionesOrdenadoresModel::create([
+            'ordenador_id' => 1,
+            'alumno_id' => 1
         ]);
 
-        Clase_Alumno_Curso::create([
-            'ordenador_clase_id' => 2,
-            'alumno_curso_id' => 2
+        AsignacionesOrdenadoresModel::create([
+            'ordenador_id' => 2,
+            'alumno_id' => 2
         ]);
 
-        Clase_Alumno_Curso::create([
-            'ordenador_clase_id' => 3,
-            'alumno_curso_id' => 3
+        AsignacionesOrdenadoresModel::create([
+            'ordenador_id' => 3,
+            'alumno_id' => 3
         ]);
 
-        Clase_Alumno_Curso::create([
-            'ordenador_clase_id' => 4,
-            'alumno_curso_id' => 4
+        AsignacionesOrdenadoresModel::create([
+            'ordenador_id' => 4,
+            'alumno_id' => 4
         ]);
     }
 }

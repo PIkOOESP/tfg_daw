@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Profesor extends Authenticatable
+class ProfesoresModel extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
@@ -22,7 +22,7 @@ class Profesor extends Authenticatable
      * 
      * @var list<string>
      */
-    protected $fillable = ["nombre", "apellido", "email", "password"];
+    protected $fillable = ["nombre", "apellido", "email", "password", "rol"];
 
     /**
      * Los atributos que deben ocultarse para la serialización.

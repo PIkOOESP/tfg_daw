@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ordenador', function (Blueprint $table) {
+        Schema::create('profesores', function (Blueprint $table) {
             $table->id();
-            $table->string("nombre");
-            $table->boolean("estado")->default(true);
+            $table->string('nombre');
+            $table->string('apellidos');
+            $table->string('email');
+            $table->string('password', 255);
+            $table->string('rol')->default('profesor');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ordenador');
+        Schema::dropIfExists('profesores');
     }
 };

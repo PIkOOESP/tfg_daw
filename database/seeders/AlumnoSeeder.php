@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Alumno;
+use App\Models\AlumnosModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,35 +13,35 @@ class AlumnoSeeder extends Seeder
      */
     public function run(): void
     {
-        Alumno::create([
+        AlumnosModel::create([
             'nombre' => 'Juan',
             'apellido' => 'Pérez',
             "nre" => "168451"
         ]);
 
-        Alumno::create([
+        AlumnosModel::create([
             'nombre' => 'María',
             'apellido' => 'Gómez',
             "nre" => "894512"
         ]);
 
-        Alumno::create([
+        AlumnosModel::create([
             'nombre' => 'Carlos',
             'apellido' => 'López',
             "nre" => "6845165"
         ]);
 
-        Alumno::create([
+        AlumnosModel::create([
             'nombre' => 'Ana',
             'apellido' => 'Martínez',
             "nre" => "165321"
         ]);
-        Alumno::create([
+        AlumnosModel::create([
             'nombre' => 'Dani',
             'apellido' => 'Zamora',
             "nre" => "164234"
         ]);
-        Alumno::create([
+        AlumnosModel::create([
             'nombre' => 'Estefania',
             'apellido' => 'Martínez',
             "nre" => "123431"

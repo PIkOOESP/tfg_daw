@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ordenador;
+use App\Models\OrdenadoresModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,38 +13,38 @@ class OrdenadorSeeder extends Seeder
      */
     public function run(): void
     {
-        Ordenador::create([
+        OrdenadoresModel::create([
             'nombre' => '1',
             'estado' => true,
         ]);
 
-        Ordenador::create([
+        OrdenadoresModel::create([
             'nombre' => '2',
             'estado' => false,
         ]);
 
-        Ordenador::create([
+        OrdenadoresModel::create([
             'nombre' => '3',
             'estado' => true,
         ]);
 
-        Ordenador::create([
+        OrdenadoresModel::create([
             'nombre' => '4',
             'estado' => false,
         ]);
-        Ordenador::create([
+        OrdenadoresModel::create([
             'nombre' => '5',
             'estado' => false,
         ]);
-        Ordenador::create([
+        OrdenadoresModel::create([
             'nombre' => '6',
             'estado' => false,
         ]);
-        Ordenador::create([
+        OrdenadoresModel::create([
             'nombre' => '7',
             'estado' => false,
         ]);
-        Ordenador::create([
+        OrdenadoresModel::create([
             'nombre' => '8',
             'estado' => false,
         ]);

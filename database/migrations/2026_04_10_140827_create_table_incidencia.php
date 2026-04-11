@@ -12,13 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('incidencia', function (Blueprint $table) {
+        Schema::create('incidencias', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
             $table->text('descripcion');
-            $table->date('fecha');
-            $table->foreignId('ordenador_id')->constrained('ordenador')->cascadeOnDelete();
+            $table->timestamp('fecha');
+            $table->foreignId('ordenador_id')->constrained('ordenadores')->cascadeOnDelete();
             $table->enum("status", IncidenciaStatus::values())->default(IncidenciaStatus::AVERIADO);
+            $table->boolean('resuelto')->default(false);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('incidencia');
+        Schema::dropIfExists('incidencias');
     }
 };

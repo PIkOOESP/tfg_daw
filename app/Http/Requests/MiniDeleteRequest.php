@@ -2,11 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\ApiResponse;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Response;
 
 class MiniDeleteRequest extends FormRequest
 {
@@ -18,14 +14,17 @@ class MiniDeleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "clase_alumno_curso_id" => "required|integer|min:1",
-            "clase_id" => "required|integer|min:1",
+            "asignacion_id" => "required|integer|min:1",
+            "aula_id" => "required|integer|min:1",
             "curso_id" => "required|integer|min:1"
         ];
     }
 
-    protected function failedV(Validator $validator)
+    public function messages(): array
     {
-        throw new HttpResponseException(ApiResponse::error($validator->errors(),"Error en las validaciones",Response::HTTP_PRECONDITION_FAILED));
+        return [
+            'asignacion_id.required' => 'No se ha podido identificar la asignación a borrar.',
+            'asignacion_id.integer'  => 'El formato de la asignación es incorrecto.',
+        ];
     }
 }
