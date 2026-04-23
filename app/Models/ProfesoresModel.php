@@ -15,14 +15,14 @@ class ProfesoresModel extends Authenticatable
      * 
      * @var string
      */
-    protected $table = "profesor";
+    protected $table = "profesores";
 
     /**
      * Los atributos que son asignables en masa.
      * 
      * @var list<string>
      */
-    protected $fillable = ["nombre", "apellido", "email", "password", "rol"];
+    protected $fillable = ["nombre", "apellidos", "email", "password", "rol"];
 
     /**
      * Los atributos que deben ocultarse para la serialización.

@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\Cursos;
+use App\Models\CursosModel as Cursos;
 
 class CursosRepository
 {
     public static function getCursos(){
-        return Cursos::all();
+        return Cursos::select()
+        ->get()
+        ->toArray();
     }
 }

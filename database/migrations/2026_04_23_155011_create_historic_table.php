@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('asignaciones_ordenadores', function (Blueprint $table) {
+        Schema::create('historic', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('alumno_id')->constrained('alumnos')->cascadeOnDelete();
-            $table->foreignId('ordenador_id')->constrained('ordenadores')->cascadeOnDelete();
-            $table->boolean('is_enabled')->default(true);
+            $table->foreignId('asignacion_id')->constrained('asignaciones_ordenadores');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('asignaciones_ordenadores');
+        Schema::dropIfExists('historic');
     }
 };

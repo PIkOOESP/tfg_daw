@@ -2,15 +2,9 @@
 
 namespace App\Services;
 
-use App\Exceptions\NotFoundAlumnoCursoException;
-use App\Exceptions\NotFoundClaseAlumnoCursoException;
-use App\Exceptions\NotFoundClaseException;
-use App\Exceptions\NotFoundCursoException;
-use App\Exceptions\NotFoundOrdenadorClaseException;
 use App\Repositories\CursosAlumnosRepository;
 use App\Repositories\AsignacionesOrdenadoresRepository;
 use App\Repositories\AulasOrdenadoresRepository;
-use Illuminate\Http\Response;
 
 class AsignacionesService
 {
@@ -64,6 +58,10 @@ class AsignacionesService
     }
 */
 
+    public function historico($value){
+        
+    }
+
     public function miniBorrarAsignacionOrdenador($asignacion_id){
         AsignacionesOrdenadoresRepository::miniBorrar($asignacion_id);
     }
@@ -74,6 +72,5 @@ class AsignacionesService
 
     public function alumnosSinOrdenador($curso_id, $aula_id){
         return AsignacionesOrdenadoresRepository::getAlumnosSinOrdenador($curso_id, $aula_id);
-
     }
 }

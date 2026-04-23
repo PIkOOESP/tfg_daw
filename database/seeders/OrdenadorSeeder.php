@@ -15,38 +15,38 @@ class OrdenadorSeeder extends Seeder
     {
         OrdenadoresModel::create([
             'nombre' => '1',
-            'estado' => true,
+            'disponible' => true,
         ]);
 
         OrdenadoresModel::create([
             'nombre' => '2',
-            'estado' => false,
+            'disponible' => false,
         ]);
 
         OrdenadoresModel::create([
             'nombre' => '3',
-            'estado' => true,
+            'disponible' => true,
         ]);
 
         OrdenadoresModel::create([
             'nombre' => '4',
-            'estado' => false,
+            'disponible' => false,
         ]);
         OrdenadoresModel::create([
             'nombre' => '5',
-            'estado' => false,
+            'disponible' => false,
         ]);
         OrdenadoresModel::create([
             'nombre' => '6',
-            'estado' => false,
+            'disponible' => false,
         ]);
         OrdenadoresModel::create([
             'nombre' => '7',
-            'estado' => false,
+            'disponible' => false,
         ]);
         OrdenadoresModel::create([
             'nombre' => '8',
-            'estado' => false,
+            'disponible' => false,
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilterAsignacionesOrdenadoresRequest;
 use App\Http\Requests\MiniCrearRequest;
 use App\Http\Requests\MiniDeleteRequest;
+use App\Http\Requests\HistoricoRequest;
 use App\Repositories\CursosRepository as repoCursos;
 use App\Repositories\AulasRepository as repoAulas;
 use App\Services\AsignacionesService  as servAsignaciones;
@@ -44,6 +45,12 @@ class AsignacionesOrdenadorController extends Controller
     public function miniCrear(MiniCrearRequest $request){
         $data = $request->validated();
         $this->asignacionesService->miniCrearAsignacionOrdenador($data);
+        return redirect()->back();
+    }
+
+    public function historico(HistoricoRequest $request){
+        $data = $request->validated();
+        $this -> asignacionesService ->historico($data);
         return redirect()->back();
     }
 }

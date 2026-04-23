@@ -15,35 +15,35 @@ class AlumnoSeeder extends Seeder
     {
         AlumnosModel::create([
             'nombre' => 'Juan',
-            'apellido' => 'Pérez',
+            'apellidos' => 'Pérez',
             "nre" => "168451"
         ]);
 
         AlumnosModel::create([
             'nombre' => 'María',
-            'apellido' => 'Gómez',
+            'apellidos' => 'Gómez',
             "nre" => "894512"
         ]);
 
         AlumnosModel::create([
             'nombre' => 'Carlos',
-            'apellido' => 'López',
+            'apellidos' => 'López',
             "nre" => "6845165"
         ]);
 
         AlumnosModel::create([
             'nombre' => 'Ana',
-            'apellido' => 'Martínez',
+            'apellidos' => 'Martínez',
             "nre" => "165321"
         ]);
         AlumnosModel::create([
             'nombre' => 'Dani',
-            'apellido' => 'Zamora',
+            'apellidos' => 'Zamora',
             "nre" => "164234"
         ]);
         AlumnosModel::create([
             'nombre' => 'Estefania',
-            'apellido' => 'Martínez',
+            'apellidos' => 'Martínez',
             "nre" => "123431"
         ]);
     }

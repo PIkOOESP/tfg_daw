@@ -15,4 +15,7 @@ Route::get("/asignaciones", [AsignacionesOrdenadorController::class, "vista"])->
 Route::post("/asignaciones", [AsignacionesOrdenadorController::class, 'miniCrear'])->name("asignaciones.miniCrear");
 
 // Rutas para mini borrar
-Route::delete("/asignaciones", [AsignacionesOrdenadorController::class, 'miniBorrar'])->name('asignaciones.miniBorrar');
+Route::post("/asignaciones", [AsignacionesOrdenadorController::class, 'miniBorrar'])->name('asignaciones.miniBorrar');
+
+// Ruta para añadir al historial
+Route::post('/asignaciones/historial', [AsignacionesOrdenadorController::class, 'historico'])->name('asignaciones.historial');

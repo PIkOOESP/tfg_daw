@@ -19,7 +19,7 @@ class AsignacionesOrdenadoresModel extends Model
      * 
      * @var list<string>
      */
-    protected $fillable = ["alumno_id", "ordenador_id"];
+    protected $fillable = ["alumno_id", "ordenador_id", "is_enabled"];
 
     /**
      * Los atributos que deben ocultarse para la serialización.

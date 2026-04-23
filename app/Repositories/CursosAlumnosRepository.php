@@ -8,9 +8,9 @@ class CursosAlumnosRepository
 {
     public static function getAlumnos($value){
         $query = CursosAlumnos::select(
-            "a.nombre as nombre_alumno",
-            "a.apellido as apellido_alumno",
-            "a.id as alumno_id"
+            "a.nombre as nombre",
+            "a.apellido as apellidos",
+            "a.id as id"
         )
         ->join('alumnos as a', 'cursos_alumnos.alumno_id', '=', 'a.id')
         ->where('curso_id', $value)

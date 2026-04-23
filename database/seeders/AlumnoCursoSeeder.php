@@ -14,30 +14,30 @@ class AlumnoCursoSeeder extends Seeder
     public function run(): void
     {
         CursosAlumnosModel::create([
-            'alumnos_id' => 1,
-            'cursos_id' => 1,
+            'alumno_id' => 1,
+            'curso_id' => 1,
         ]);
 
         CursosAlumnosModel::create([
-            'alumnos_id' => 2,
-            'cursos_id' => 1,
+            'alumno_id' => 2,
+            'curso_id' => 1,
         ]);
 
         CursosAlumnosModel::create([
-            'alumnos_id' => 3,
-            'cursos_id' => 2,
+            'alumno_id' => 3,
+            'curso_id' => 2,
         ]);
         CursosAlumnosModel::create([
-            'alumnos_id' => 4,
-            'cursos_id' => 2,
+            'alumno_id' => 4,
+            'curso_id' => 2,
         ]);
         CursosAlumnosModel::create([
-            'alumnos_id' => 5,
-            'cursos_id' => 3,
+            'alumno_id' => 5,
+            'curso_id' => 3,
         ]);
         CursosAlumnosModel::create([
-            'alumnos_id' => 6,
-            'cursos_id' => 3,
+            'alumno_id' => 6,
+            'curso_id' => 3,
         ]);
     }
 }
