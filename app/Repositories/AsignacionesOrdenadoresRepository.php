@@ -82,7 +82,8 @@ class AsignacionesOrdenadoresRepository
         ->join('cursos_alumnos as ca', 'alumnos.id', '=', 'ca.alumno_id')
         ->where('ca.curso_id', $curso_id)
         ->whereNotIn('alumnos.id', $asignacion)
-        ->get();
+        ->get()
+        ->toArray();
 
         return $alumnos;
     }
