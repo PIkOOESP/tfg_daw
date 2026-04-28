@@ -26,8 +26,8 @@
                         <select name="curso_id" class="form-select">
                             <option value="">Seleccionar...</option>
                             @foreach($cursos as $curso)
-                                <option value="{{ $curso->id }}" {{ (isset($value) && $value['curso_id'] == $curso->id) ? 'selected' : '' }}>
-                                    {{ $curso->letra }}
+                                <option value="{{ $curso['id'] }}" {{ (isset($value) && $value['curso_id'] == $curso['id']) ? 'selected' : '' }}>
+                                    {{ $curso['letra'] }}
                                 </option>
                             @endforeach
                         </select>
@@ -37,9 +37,9 @@
                         <span class="input-group-text">Aula</span>
                         <select name="aula_id" class="form-select">
                             <option value="">Seleccionar...</option>
-                            @foreach($aulas as $aula) {{-- Cambiado $clases por $aulas --}}
-                                <option value="{{ $aula->id }}" {{ (isset($value) && $value['aula_id'] == $aula->id) ? 'selected' : '' }}>
-                                    {{ $aula->nombre }}
+                            @foreach($aulas as $aula)
+                                <option value="{{ $aula['id'] }}" {{ (isset($value) && $value['aula_id'] == $aula['id']) ? 'selected' : '' }}>
+                                    {{ $aula['nombre'] }}
                                 </option>
                             @endforeach
                         </select>
@@ -59,42 +59,40 @@
                 <div class="col-md-3 mb-4">
                     <div class="card text-center border-dark h-100 shadow-sm">
                         <div class="card-header text-white" style="background-color: #0b63a9;">
-                            <strong>Ordenador Nº {{ $item['nombre_ordenador'] }}</strong>
+                            <strong>Ordenador Nº {{ $item['nombre'] ?? $item['nombre_ordenador'] }}</strong>
                         </div>
 
                         @php
-                            $asignacion = $asignaciones->firstWhere('id', $item->id);
+                            $asignacion = collect($asignaciones)->firstWhere('ordenador_id', $item['id']);
                         @endphp
 
                         <div class="card-body d-flex flex-column justify-content-center">
                             @if($asignacion)
-                                <h5 class="card-title text-primary">{{ $asignacion->nombre_alumno }}</h5>
-                                <p class="card-text text-muted">{{ $asignacion->apellido_alumno }}</p>
+                                <h5 class="card-title text-primary">{{ $asignacion['nombre_alumno'] }}</h5>
+                                <p class="card-text text-muted">{{ $asignacion['apellido_alumno'] }}</p>
 
                                 <form action="{{ route('asignaciones.miniBorrar') }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    {{-- Ajustado a 'asignacion_id' según tu controlador --}}
-                                    <input type="hidden" name="asignacion_id" value="{{ $asignacion->cac_id }}">
+                                    <input type="hidden" name="asignacion_id" value="{{ $asignacion['cac_id'] }}">
                                     
                                     <button type="submit" class="btn btn-outline-danger btn-sm w-100 mb-2">
                                         <i class="bi bi-person-x"></i> Liberar PC
                                     </button>
                                 </form>
                             @else
-                                @if($alumnos->isEmpty())
+                                @if(empty($alumnos))
                                     <p class="text-muted small">No hay alumnos disponibles</p>
                                 @else
                                     <form action="{{ route('asignaciones.miniCrear') }}" method="POST">
                                         @csrf
-                                        {{-- Estos nombres deben coincidir con tu MiniCrearRequest --}}
-                                        <input type="hidden" name="ordenador_clase_id" value="{{ $item->id }}">
+                                        <input type="hidden" name="ordenador_clase_id" value="{{ $item['id'] }}">
                                         
                                         <select name="alumno_curso_id" class="form-select form-select-sm mb-2" required>
                                             <option value="">Asignar alumno...</option>
                                             @foreach($alumnos as $alumno)
-                                                <option value="{{ $alumno->id }}">
-                                                    {{ $alumno->alumno->nombre }} {{ $alumno->alumno->apellido }}
+                                                <option value="{{ $alumno['id'] }}">
+                                                    {{ $alumno['nombre'] ?? 'Alumno' }} {{ $alumno['apellidos'] ?? '' }}
                                                 </option>
                                             @endforeach
                                         </select>
