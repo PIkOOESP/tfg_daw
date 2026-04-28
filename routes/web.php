@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsignacionesOrdenadorController;
+use App\Http\Controllers\IncidenciasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,3 +20,7 @@ Route::post("/asignaciones", [AsignacionesOrdenadorController::class, 'miniBorra
 
 // Ruta para añadir al historial
 Route::post('/asignaciones/historial', [AsignacionesOrdenadorController::class, 'historico'])->name('asignaciones.historial');
+
+//Rutas para incidencias
+Route::get('/incidencias', [IncidenciasController::class, 'home'])->name('incidencias.home');
+Route::post('/incidencias', [IncidenciasController::class, 'create'])->name('incidencias.create');

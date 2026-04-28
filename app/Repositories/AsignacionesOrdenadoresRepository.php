@@ -35,7 +35,8 @@ class AsignacionesOrdenadoresRepository
         ->where('aor.is_enabled', "=", true) 
         ->orderBy("o.id","asc")
         ->get() 
-        ->keyBy('o.id');
+        ->keyBy('ordenador_id')
+        ->toArray();
         
         if(empty($asignacion)){
             return null;
@@ -91,18 +92,10 @@ class AsignacionesOrdenadoresRepository
      */
     public static function getAlumnosSinOrdenador($curso_id, $aula_id){
         $asignacion = AsignacionesOrdenadoresModel::from('asignaciones_ordenadores as aor')
-        ->select(
-            'a.id'
-        )
-        ->join('alumnos as a', 'aor.alumno_id', '=', 'a.id')
-        ->join('cursos_alumnos as ca', 'a.id', '=', 'ca.alumno_id') 
-        ->join('ordenadores as o',"aor.ordenador_id","=","o.id")
-        ->join('aulas_ordenadores as ao', 'o.id', '=', 'ao.ordenador_id')
-        ->where('ca.curso_id', "=", $curso_id) 
+        ->join('aulas_ordenadores as ao', 'aor.ordenador_id', '=', 'ao.ordenador_id')
         ->where('ao.aula_id', "=", $aula_id) 
         ->where('aor.is_enabled', "=", true)
-        ->get()
-        ->pluck('a.id');
+        ->pluck('aor.alumno_id');
 
         $alumnos = AlumnosModel::select("alumnos.id", "alumnos.nombre", "alumnos.apellidos")
         ->join('cursos_alumnos as ca', 'alumnos.id', '=', 'ca.alumno_id')

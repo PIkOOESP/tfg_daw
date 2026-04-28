@@ -27,6 +27,6 @@ class IncidenciasRepository
         $incidencia->fecha = Carbon::createFromFormat('Y-m-d H:i:s',$fecha.' '.$hora);
         $incidencia->status = $status;
         $incidencia->resuelto = false;
-        $incidencia->save();
+        return $incidencia->save();
     }
 }
