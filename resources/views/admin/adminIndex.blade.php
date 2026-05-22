@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Clases y Cursos</title>
+    <title>Panel de Administración</title>
     <link rel="stylesheet" href="{{ asset('app.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body class="bg-light">
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-4" style="background-color: #0b63a9;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('asignaciones.vista') }}">Panel de Control</a>
-            
 
-            <div class="collapse navbar-collapse" id="filtrosHeader">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: #0b63a9;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ route('admin.index') }}">Panel de Control Admin</a>
+            
+            <div class="d-flex align-items-center text-white gap-3">
+                <div class="text-end">
+                    <div class="fw-bold">{{ auth()->user()->nombre }}</div>
+                    <small class="badge bg-light text-primary text-uppercase">{{ auth()->user()->rol }}</small>
+                </div>
+
+                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-right"></i> Salir
+                    </button>
+                </form>
             </div>
         </div>
     </nav>

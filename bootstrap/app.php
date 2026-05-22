@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Registramos tu middleware personalizado para que Laravel lo reconozca
+        $middleware->alias([
+            'sso.auth' => \App\Http\Middleware\EnsureSSOAuthenticated::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

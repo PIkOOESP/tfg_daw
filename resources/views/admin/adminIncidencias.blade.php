@@ -3,35 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Clases y Cursos</title>
+    <title>Gestión de Incidencias</title>
     <link rel="stylesheet" href="{{ asset('app.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
     <style>
-        .pagination nav .d-sm-flex > div:first-child {
-            display: none !important;
-        }
-        .pagination nav .d-sm-flex {
-            justify-content: center !important;
-        }
+        .pagination nav .d-sm-flex > div:first-child { display: none !important; }
+        .pagination nav .d-sm-flex { justify-content: center !important; }
     </style>
 </head>
 <body class="bg-light">
+
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-4" style="background-color: #0b63a9;">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: #0b63a9;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('admin.incidencias') }}">Panel de Control</a>
+            <a class="navbar-brand" href="{{ route('admin.index') }}">Panel de Control Admin</a>
+            
+            <div class="d-flex align-items-center text-white gap-3">
+                <div class="text-end">
+                    <div class="fw-bold">{{ auth()->user()->nombre }}</div>
+                    <small class="badge bg-light text-primary text-uppercase">{{ auth()->user()->rol }}</small>
+                </div>
+
+                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-right"></i> Salir
+                    </button>
+                </form>
+            </div>
         </div>
     </nav>
 </header>
+
 <main class="container mt-5 mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0 text-secondary"><i class="bi bi-tools"></i> Gestión de Incidencias</h2>
-        <a href="{{ route('asignaciones.vista') }}" class="btn btn-outline-secondary">
+        <a href="{{ route('admin.index') }}" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Volver al Panel
         </a>
     </div>
+
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <form action="{{ route('admin.incidencias') }}" method="GET" class="row g-3 align-items-end">
@@ -90,69 +103,40 @@
                             </tr>
                         </thead>
                         <tbody>
-                                @foreach ($incidencias as $incidencia)
-                                    <tr class="table-danger">
-                                        <td class="ps-4">
-                                            <strong>Nº {{ $incidencia->ordenador_nombre ?? 'Desconocido' }}</strong>
-                                        </td>
-                                        <td>
-                                            <strong>{{ $incidencia->titulo ?? 'Sin título' }}</strong>
-                                        </td>
-                                        <td>
-                                            <div class="small text-muted">
-                                                {{ $incidencia->descripcion ?? 'Sin descripción' }}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="small text-muted">
-                                                {{ $incidencia->fecha ?? 'Sin fecha' }}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="small fw-bold text-secondary">
-                                                {{ $incidencia->status->value ?? $incidencia->status->name ?? $incidencia->status ?? 'Desconocido' }}
-                                            </div>
-                                        </td>
-                                        <td class="text-end pe-4">
-                                            @php
-                                                $statusName = strtolower($incidencia->status->name ?? $incidencia->status ?? '');
-                                            @endphp
-
-                                            @if($statusName === 'sin_solucion')
-                                                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Sin solución</span>
-                                            @elseif($statusName === 'resuelto' || $incidencia->resuelto)
-                                                <span class="badge bg-secondary"><i class="bi bi-info-circle"></i> Reparado</span>
-                                            @else
-                                                <a href="{{ route('admin.incidencias.cambiar', ['incidencia_id' => $incidencia->id]) }}" 
-                                                   class="btn btn-sm {{ $statusName === 'pendiente' ? 'btn-warning' : 'btn-success' }}">
-                                                    <i class="bi {{ $statusName === 'pendiente' ? 'bi-tools' : 'bi-check-lg' }}"></i> 
-                                                    {{ $statusName === 'pendiente' ? 'Mantenimiento' : 'Reparado' }}
-                                                </a>
-                                                <a href="{{ route('admin.incidencias.cambiar', ['incidencia_id' => $incidencia->id, 'sin_solucion' => true]) }}" class="btn btn-sm btn-danger">
-                                                    <i class="bi bi-x-circle"></i> Sin solución 
-                                                </a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            @foreach ($incidencias as $incidencia)
+                                <tr class="table-danger">
+                                    <td class="ps-4"><strong>Nº {{ $incidencia->ordenador_nombre ?? 'Desconocido' }}</strong></td>
+                                    <td><strong>{{ $incidencia->titulo ?? 'Sin título' }}</strong></td>
+                                    <td><div class="small text-muted">{{ $incidencia->descripcion ?? 'Sin descripción' }}</div></td>
+                                    <td><div class="small text-muted">{{ $incidencia->fecha ?? 'Sin fecha' }}</div></td>
+                                    <td><div class="small fw-bold text-secondary">{{ $incidencia->status->value ?? 'Desconocido' }}</div></td>
+                                    <td class="text-end pe-4">
+                                        @php $statusName = strtolower($incidencia->status->name ?? $incidencia->status ?? ''); @endphp
+                                        @if($statusName === 'sin_solucion')
+                                            <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Sin solución</span>
+                                        @elseif($statusName === 'resuelto' || $incidencia->resuelto)
+                                            <span class="badge bg-secondary"><i class="bi bi-info-circle"></i> Reparado</span>
+                                        @else
+                                            <a href="{{ route('admin.incidencias.cambiar', ['incidencia_id' => $incidencia->id]) }}" class="btn btn-sm {{ $statusName === 'pendiente' ? 'btn-warning' : 'btn-success' }}">
+                                                <i class="bi {{ $statusName === 'pendiente' ? 'bi-tools' : 'bi-check-lg' }}"></i> {{ $statusName === 'pendiente' ? 'Mantenimiento' : 'Reparado' }}
+                                            </a>
+                                            <a href="{{ route('admin.incidencias.cambiar', ['incidencia_id' => $incidencia->id, 'sin_solucion' => true]) }}" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-x-circle"></i> Sin solución 
+                                            </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                    <div class="d-flex justify-content-center pt-4 pb-2 border-top pagination">
-                        {{ $incidencias->withQueryString()->links('pagination::bootstrap-5') }}
-                    </div>
+                <div class="d-flex justify-content-center pt-4 pb-2 border-top pagination">
+                    {{ $incidencias->withQueryString()->links('pagination::bootstrap-5') }}
+                </div>
             @else
                 <div class="p-5 text-center text-muted">
-                    @if(request('ordenador_id') || request('fecha') || request('status'))
-                        <i class="bi bi-search text-secondary mb-3" style="font-size: 4rem;"></i>
-                        <h4 class="text-secondary">Sin resultados</h4>
-                        <p class="fs-6">No se ha encontrado ninguna incidencia que coincida con los filtros aplicados.</p>
-                        <a href="{{ route('admin.incidencias') }}" class="btn btn-outline-secondary mt-3"><i class="bi bi-eraser"></i> Limpiar filtros</a>
-                    @else
-                        <i class="bi bi-check-circle text-success mb-3" style="font-size: 4rem;"></i>
-                        <h4 class="text-success">¡Todo en orden!</h4>
-                        <p class="fs-6">No hay ordenadores con incidencias registrados en este momento.</p>
-                    @endif
+                    <h4 class="text-success">¡Todo en orden!</h4>
+                    <p class="fs-6">No hay incidencias pendientes.</p>
                 </div>
             @endif
         </div>
@@ -163,10 +147,7 @@
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        new TomSelect("#ordenador_id", {
-            create: false,
-            placeholder: "Buscar por PC..."
-        });
+        new TomSelect("#ordenador_id", { create: false, placeholder: "Buscar por PC..." });
     });
 </script>
 </body>

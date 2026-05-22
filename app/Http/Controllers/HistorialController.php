@@ -7,6 +7,11 @@
     use Illuminate\Http\Request;
     use Carbon\Carbon;
 
+    use App\Repositories\OrdenadoresRepository as repoOrdenadores;
+    use App\Repositories\CursosRepository as repoCursos;
+    use App\Repositories\AulasRepository as repoAulas;
+    use App\Repositories\AlumnosRepository as repoAlumnos;
+
     class HistorialController extends Controller {
         protected $historialService;
 
@@ -49,10 +54,12 @@
 
             $historial = $this->historialService->getHistorico($data);
 
-            var_dump($historial);
-            exit;
+            $ordenadores = repoOrdenadores::getOrdenadores();
+            $alumnos = repoAlumnos::getAlumnos();
+            $aulas = repoAulas::getAulas();
+            $cursos = repoCursos::getCursos();
 
-            return view('admin.historial', compact('historial', 'data'));
+            return view('admin.historial', compact('historial', 'data', 'ordenadores', 'alumnos', 'aulas', 'cursos'));
         }
 
         /**
@@ -64,6 +71,6 @@
         public function historico(CreateHistoricoRequest $request){
             $data = $request->validated();
             $this -> historialService ->historico($data);
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Historial enviado correctamente.');
         }
     }

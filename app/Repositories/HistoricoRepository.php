@@ -19,6 +19,10 @@ class HistoricoRepository
     public static function createHistorico($value){
         $asignaciones = repoAsignaciones::getAsignaciones($value['curso_id'], $value['aula_id']);
 
+        if($asignaciones == null){
+            return;
+        }
+
         foreach($asignaciones as $valor){
             $historico = new Historico();
             $historico->asignacion_id = $valor['asignacion_id'];
@@ -57,7 +61,7 @@ class HistoricoRepository
         ->whereTime('historico.created_at', ">=", $data['hora_inicio'])
         ->whereTime('historico.created_at', "<=", $data['hora_fin']);
         
-        if(isset($data[' cursos_id']) && $data['cursos_id']){
+        if(isset($data['cursos_id']) && $data['cursos_id']){
             $query->where('ca.curso_id', $data['cursos_id']);
         }
 

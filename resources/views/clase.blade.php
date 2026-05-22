@@ -9,61 +9,85 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
+
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-4" style="background-color: #0b63a9;">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: #0b63a9;">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('asignaciones.vista') }}">Panel de Control</a>
             
+            <div class="d-flex align-items-center text-white gap-3">
+                <div class="text-end d-none d-md-block">
+                    <div class="fw-bold">{{ auth()->user()->nombre }}</div>
+                    <small class="badge bg-light text-primary text-uppercase">{{ auth()->user()->rol }}</small>
+                </div>
 
-            <div class="collapse navbar-collapse" id="filtrosHeader">
-                <form action="{{ route('asignaciones.filtrar') }}" method="GET" class="d-flex ms-auto gap-3 align-items-center">
-                    <div class="d-flex align-items-center gap-2">
-                        <label class="text-white mb-0" style="font-weight: 500;">Curso:</label>
-                        <div style="min-width: 150px;">
-                            <select name="curso_id" class="form-select form-select-sm searchable-select" required>
-                                <option value="">Seleccionar...</option>
-                                @foreach($cursos as $curso)
-                                    <option value="{{ $curso['id'] }}" {{ (isset($value) && $value['curso_id'] == $curso['id']) ? 'selected' : '' }}>
-                                       {{ $curso['nivel'] }}º {{ $curso['letra'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-2">
-                        <label class="text-white mb-0" style="font-weight: 500;">Aula:</label>
-                        <div style="min-width: 150px;">
-                            <select name="aula_id" class="form-select form-select-sm searchable-select" required>
-                                <option value="">Seleccionar...</option>
-                                @foreach($aulas as $aula)
-                                    <option value="{{ $aula['id'] }}" {{ (isset($value) && $value['aula_id'] == $aula['id']) ? 'selected' : '' }}>
-                                        {{ $aula['nombre'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <button class="btn btn-light btn-sm" type="submit">Filtrar</button>
+                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-right"></i> Salir
+                    </button>
                 </form>
             </div>
         </div>
     </nav>
-</header>
-<main class="container mt-4">
-    @if(isset($ordenadores))
-    <div class="d-flex justify-content-center p-2">
-        <form action="{{ route('asignaciones.historial') }}" method="POST">
-            @csrf
-            <input type="hidden" name="curso_id" value="{{ $value['curso_id'] }}">
-            <input type="hidden" name="aula_id" value="{{ $value['aula_id'] }}">
-            <button type="submit" class="btn btn-info btn-lg mb-3 p-3">
-                <i class="bi bi-clock-history"></i> Historial
-            </button>
-        </form>
+
+    <div class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2">
+        <div class="container-fluid">
+            <form action="{{ route('asignaciones.filtrar') }}" method="GET" class="d-flex flex-wrap w-100 gap-3 align-items-center justify-content-center">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="mb-0 fw-bold">Curso:</label>
+                    <div style="min-width: 150px;">
+                        <select name="curso_id" class="form-select form-select-sm searchable-select" required>
+                            <option value="">Seleccionar...</option>
+                            @foreach($cursos as $curso)
+                                <option value="{{ $curso['id'] }}" {{ (isset($value) && $value['curso_id'] == $curso['id']) ? 'selected' : '' }}>
+                                    {{ $curso['nivel'] }}º {{ $curso['letra'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <label class="mb-0 fw-bold">Aula:</label>
+                    <div style="min-width: 150px;">
+                        <select name="aula_id" class="form-select form-select-sm searchable-select" required>
+                            <option value="">Seleccionar...</option>
+                            @foreach($aulas as $aula)
+                                <option value="{{ $aula['id'] }}" {{ (isset($value) && $value['aula_id'] == $aula['id']) ? 'selected' : '' }}>
+                                    {{ $aula['nombre'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-sm px-4" type="submit">Filtrar</button>
+            </form>
+        </div>
     </div>
+</header>
+
+<main class="container mt-4">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if(isset($ordenadores))
+        <div class="d-flex justify-content-center p-2">
+            <form action="{{ route('asignaciones.historial') }}" method="POST">
+                @csrf
+                <input type="hidden" name="curso_id" value="{{ $value['curso_id'] }}">
+                <input type="hidden" name="aula_id" value="{{ $value['aula_id'] }}">
+                <button type="submit" class="btn btn-info text-white btn-lg mb-3 px-4 shadow-sm">
+                    <i class="bi bi-clock-history"></i> Historial
+                </button>
+            </form>
+        </div>
+        
         <div class="row">
             @foreach ($ordenadores as $item)
                 <div class="col-md-3 mb-4">
@@ -72,45 +96,33 @@
                             <strong>Ordenador Nº {{ $item['nombre'] }}</strong>
                         </div>
 
-                        @php
-                            $asignacion = collect($asignaciones)->firstWhere('ordenador_id', $item['id']);
-                        @endphp
+                        @php $asignacion = collect($asignaciones)->firstWhere('ordenador_id', $item['id']); @endphp
 
                         <div class="card-body d-flex flex-column justify-content-center">
                             @if($asignacion)
                                 <h5 class="card-title text-primary">{{ $asignacion['nombre_alumno'] }} {{ $asignacion['apellido_alumno'] }}</h5>
-                                <p class="card-text text-muted"></p>
-
-                                <form action="{{ route('asignaciones.miniBorrar') }}" method="POST">
+                                <form action="{{ route('asignaciones.borrar') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="asignacion_id" value="{{ $asignacion['asignacion_id'] }}">
                                     <input type="hidden" name="curso_id" value="{{ $value['curso_id'] }}">
                                     <input type="hidden" name="aula_id" value="{{ $value['aula_id'] }}">
-
-                                    
                                     <button type="submit" class="btn btn-outline-primary btn-sm w-100 mb-2">
                                         <i class="bi bi-person-x"></i> Liberar PC
                                     </button>
                                 </form>
                             @else
-                                @if(empty($alumnos))
-                                    <p class="text-muted small">No hay alumnos disponibles</p>
-                                @else
+                                @if(!empty($alumnos))
                                     <form action="{{ route('asignaciones.miniCrear') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="ordenador_id" value="{{ $item['id'] }}">
                                         <input type="hidden" name="curso_id" value="{{ $value['curso_id'] }}">
                                         <input type="hidden" name="aula_id" value="{{ $value['aula_id'] }}">
-                                        
                                         <select name="alumno_id" class="form-select form-select-sm mb-2 searchable-select" required>
                                             <option value="">Asignar alumno...</option>
                                             @foreach($alumnos as $alumno)
-                                                <option value="{{ $alumno['id'] }}">
-                                                    {{ $alumno['nombre'] ?? 'Alumno' }} {{ $alumno['apellidos'] ?? '' }}
-                                                </option>
+                                                <option value="{{ $alumno['id'] }}">{{ $alumno['nombre'] }} {{ $alumno['apellidos'] }}</option>
                                             @endforeach
                                         </select>
-                                        
                                         <button type="submit" class="btn btn-outline-success btn-sm w-100 mb-2">
                                             <i class="bi bi-person-plus"></i> Asignar PC
                                         </button>
@@ -121,15 +133,10 @@
                                 <i class="bi bi-pc-display"></i> Incidencia
                             </a>
                         </div>
-
                         <div class="card-footer py-1 bg-light">
-                            @if($item['disponible'] == false)
-                                <small class="text-danger">● Averiado</small>
-                            @elseif($asignacion)
-                                <small class="text-danger">● Ocupado</small>
-                            @else
-                                <small class="text-success">● Disponible</small>
-                            @endif
+                            @if($item['disponible'] == false) <small class="text-danger">● Averiado</small>
+                            @elseif($asignacion) <small class="text-danger">● Ocupado</small>
+                            @else <small class="text-success">● Disponible</small> @endif
                         </div>
                     </div>
                 </div>
@@ -147,9 +154,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.searchable-select').forEach(function(el) {
-            new TomSelect(el, {
-                create: false
-            });
+            new TomSelect(el, { create: false });
         });
     });
 </script>

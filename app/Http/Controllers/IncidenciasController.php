@@ -10,6 +10,7 @@ use App\Repositories\OrdenadoresRepository as repoOrdenadores;
 use App\Services\IncidenciasService;
 use App\Enums\IncidenciaStatus;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth; // Asegúrate de importar esto
 
 class IncidenciasController extends Controller
 {
@@ -39,6 +40,11 @@ class IncidenciasController extends Controller
     }
 
     public function homeAdmin(Request $request){
+        // PROTECCIÓN: Comprobamos si el usuario autenticado es admin
+        if (Auth::user()->rol !== 'admin') {
+            abort(403, 'No tienes permisos para acceder a esta sección.');
+        }
+
         $value = $request -> all();
 
         $estados = IncidenciaStatus::cases();
@@ -52,6 +58,11 @@ class IncidenciasController extends Controller
 
     public function cambiarEstado($incidencia_id, Request $request)
     {
+        // PROTECCIÓN ADICIONAL: También proteger la acción de cambiar estado
+        if (Auth::user()->rol !== 'admin') {
+            abort(403, 'No tienes permisos para realizar esta acción.');
+        }
+
         $sin_solucion = $request -> input('sin_solucion', false);
         $this -> incidenceService -> cambiarEstado($incidencia_id, $sin_solucion);
 
