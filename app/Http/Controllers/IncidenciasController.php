@@ -33,9 +33,9 @@ class IncidenciasController extends Controller
             return redirect() -> route('asignaciones.filtrar', [
                 "aula_id" => $value['aula_id'],
                 "curso_id" => $value['curso_id']
-            ]);
+            ])->with('success', 'Incidencia creada correctamente.');
         } else {
-            return redirect() -> back();
+            return redirect() -> back()->with('error', 'No se ha podido crear la incidencia.');
         }
     }
 

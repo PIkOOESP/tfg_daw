@@ -94,39 +94,64 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th class="ps-4">PC</th>
-                                <th>Título</th>
-                                <th>Descripción</th>
-                                <th>Fecha y hora</th>
-                                <th>Estado</th>
-                                <th class="text-end pe-4">Acciones</th>
+                                <th class="ps-4 py-3 text-nowrap">PC</th>
+                                <th class="py-3 text-nowrap">Profesor</th>
+                                <th class="py-3" style="min-width: 180px;">Título</th>
+                                <th class="py-3" style="min-width: 250px;">Descripción</th>
+                                <th class="py-3 text-nowrap">Fecha y hora</th>
+                                <th class="py-3 text-nowrap">Estado</th>
+                                <th class="text-end pe-4 py-3 text-nowrap">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($incidencias as $incidencia)
-                                <tr class="table-danger">
-                                    <td class="ps-4"><strong>Nº {{ $incidencia->ordenador_nombre ?? 'Desconocido' }}</strong></td>
-                                    <td><strong>{{ $incidencia->titulo ?? 'Sin título' }}</strong></td>
-                                    <td><div class="small text-muted">{{ $incidencia->descripcion ?? 'Sin descripción' }}</div></td>
-                                    <td><div class="small text-muted">{{ $incidencia->fecha ?? 'Sin fecha' }}</div></td>
-                                    <td><div class="small fw-bold text-secondary">{{ $incidencia->status->value ?? 'Desconocido' }}</div></td>
-                                    <td class="text-end pe-4">
-                                        @php $statusName = strtolower($incidencia->status->name ?? $incidencia->status ?? ''); @endphp
-                                        @if($statusName === 'sin_solucion')
-                                            <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Sin solución</span>
-                                        @elseif($statusName === 'resuelto' || $incidencia->resuelto)
-                                            <span class="badge bg-secondary"><i class="bi bi-info-circle"></i> Reparado</span>
-                                        @else
-                                            <a href="{{ route('admin.incidencias.cambiar', ['incidencia_id' => $incidencia->id]) }}" class="btn btn-sm {{ $statusName === 'pendiente' ? 'btn-warning' : 'btn-success' }}">
-                                                <i class="bi {{ $statusName === 'pendiente' ? 'bi-tools' : 'bi-check-lg' }}"></i> {{ $statusName === 'pendiente' ? 'Mantenimiento' : 'Reparado' }}
-                                            </a>
-                                            <a href="{{ route('admin.incidencias.cambiar', ['incidencia_id' => $incidencia->id, 'sin_solucion' => true]) }}" class="btn btn-sm btn-danger">
-                                                <i class="bi bi-x-circle"></i> Sin solución 
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach ($incidencias as $incidencia)
+                                    <tr class="table-danger">
+                                        <td class="ps-4 py-3">
+                                            <strong>{{ $incidencia->ordenador_nombre ?? 'Desconocido' }}</strong>
+                                        </td>
+                                        <td class="py-3 text-nowrap">
+                                            {{ $incidencia->profesor ?? 'Sin profesor' }}
+                                        </td>
+                                        <td class="py-3">
+                                            <strong>{{ $incidencia->titulo ?? 'Sin título' }}</strong>
+                                        </td>
+                                        <td class="py-3">
+                                            <div class="small text-muted">
+                                                {{ $incidencia->descripcion ?? 'Sin descripción' }}
+                                            </div>
+                                        </td>
+                                        <td class="py-3 text-nowrap">
+                                            <div class="small text-muted">
+                                                {{ $incidencia->fecha ?? 'Sin fecha' }}
+                                            </div>
+                                        </td>
+                                        <td class="py-3 text-nowrap">
+                                            <div class="small fw-bold text-secondary">
+                                                {{ $incidencia->status->value ?? $incidencia->status->name ?? $incidencia->status ?? 'Desconocido' }}
+                                            </div>
+                                        </td>
+                                        <td class="text-end pe-4 py-3 text-nowrap">
+                                            @php
+                                                $statusName = strtolower($incidencia->status->name ?? $incidencia->status ?? '');
+                                            @endphp
+
+                                            @if($statusName === 'sin_solucion')
+                                                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Sin solución</span>
+                                            @elseif($statusName === 'resuelto' || $incidencia->resuelto)
+                                                <span class="badge bg-secondary"><i class="bi bi-info-circle"></i> Reparado</span>
+                                            @else
+                                                <a href="{{ route('admin.incidencias.cambiar', ['incidencia_id' => $incidencia->id]) }}" 
+                                                   class="btn btn-sm {{ $statusName === 'pendiente' ? 'btn-warning' : 'btn-success' }}">
+                                                    <i class="bi {{ $statusName === 'pendiente' ? 'bi-tools' : 'bi-check-lg' }}"></i> 
+                                                    {{ $statusName === 'pendiente' ? 'Mantenimiento' : 'Reparado' }}
+                                                </a>
+                                                <a href="{{ route('admin.incidencias.cambiar', ['incidencia_id' => $incidencia->id, 'sin_solucion' => true]) }}" class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-x-circle"></i> Sin solución 
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                         </tbody>
                     </table>
                 </div>

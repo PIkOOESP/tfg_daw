@@ -14,32 +14,35 @@ class HistoricoRepository
      * Crea múltiples entradas en el histórico a partir de una lista de asignaciones.
      *
      * @param array $value Lista de arrays, donde cada uno contiene 'asignacion_id'.
-     * @return void
+     * @return bool
      */
     public static function createHistorico($value){
         $asignaciones = repoAsignaciones::getAsignaciones($value['curso_id'], $value['aula_id']);
 
-        if($asignaciones == null){
-            return;
+        if(empty($asignaciones)){
+            return false;
         }
 
         foreach($asignaciones as $valor){
             $historico = new Historico();
             $historico->asignacion_id = $valor['asignacion_id'];
+            $historico->profesor = "Profe de prueba";
             $historico->save();
         }
+        return true;
     }
 
     /**
      * Devuelve una lista de historial formateada para meterlo en una tabla
      * 
      * @param array $data Valores enviados por el filtro
-     * @return array 
+     * @return object 
      */
     public static function getHistorico($data)
     {
         $query = Historico::select(
             "historico.id as id",
+            "historico.profesor as profesor",
             "o.nombre as ordenador_nombre",
             "a.nombre as alumno_nombre",
             "a.apellidos as alumno_apellidos",
@@ -80,6 +83,6 @@ class HistoricoRepository
             $query->where('o.id', $data['ordenador_id']);
         }
 
-        return $query->get()->toArray();
+        return $query->paginate(15);
     }
 }

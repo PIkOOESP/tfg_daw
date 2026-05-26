@@ -70,6 +70,7 @@
 </header>
 
 <main class="container mt-4">
+    <p class="text-center">¡IMPORTANTE! Guardar siempre que se hayan asignado los alumnos.</p>
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle me-2"></i>{{ session('success') }}

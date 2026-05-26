@@ -40,18 +40,6 @@
                 $data['fecha_fin'] = Carbon::parse($data['fecha_fin']) -> format('Y-m-d');
             }
 
-            if(!isset($data['hora_inicio'])){
-                $data['hora_inicio'] = Carbon::now() -> subHours(3) -> format('H:i:s');
-            } else {
-                $data['hora_inicio'] = Carbon::parse($data['hora_inicio']) -> format('H:i:s');
-            }
-
-            if(!isset($data['hora_fin'])){
-                $data['hora_fin'] = Carbon::now() -> addHours(3) -> format('H:i:s');
-            } else {
-                $data['hora_fin'] = Carbon::parse($data['hora_fin']) -> format('H:i:s');
-            }
-
             $historial = $this->historialService->getHistorico($data);
 
             $ordenadores = repoOrdenadores::getOrdenadores();
@@ -70,7 +58,10 @@
          */
         public function historico(CreateHistoricoRequest $request){
             $data = $request->validated();
-            $this -> historialService ->historico($data);
-            return redirect()->back()->with('success', 'Historial enviado correctamente.');
+            if($this -> historialService ->historico($data)){       
+                return redirect()->back()->with('success', 'Historial enviado correctamente.');
+            }else {
+                return redirect()->back()->with('error', "No hay historial que cargar");
+            }
         }
     }
