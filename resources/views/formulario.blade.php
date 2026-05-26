@@ -13,7 +13,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: #0b63a9;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('asignaciones.vista') }}">Panel de Control</a>
+            <a class="navbar-brand" href="{{ route('asignaciones.vista') }}">Gestor de ordenadores</a>
             
             <div class="d-flex align-items-center text-white gap-3">
                 <div class="text-end d-none d-md-block">

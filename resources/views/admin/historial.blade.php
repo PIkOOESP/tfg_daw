@@ -16,6 +16,8 @@
             justify-content: center !important;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="bg-light">
 
@@ -54,18 +56,18 @@
             <form action="{{ route('admin.historial') }}" method="GET" class="row g-3 align-items-end">
                 <div class="col-md-3">
                     <label for="fecha_inicio" class="form-label text-secondary small fw-bold">Desde Fecha</label>
-                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="{{ data_get($data, 'fecha_inicio') }}">
+                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="{{ $data['fecha_inicio'] ?? '' }}">
                 </div>
                 <div class="col-md-3">
                     <label for="fecha_fin" class="form-label text-secondary small fw-bold">Hasta Fecha</label>
-                    <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="{{ data_get($data, 'fecha_fin') }}">
+                    <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="{{ $data['fecha_fin'] ?? '' }}">
                 </div>
                 <div class="col-md-3">
                     <label for="ordenador_id" class="form-label text-secondary small fw-bold">Ordenador</label>
                     <select name="ordenador_id" id="ordenador_id" class="form-select">
                         <option value="">Cualquier ordenador</option>
                         @foreach($ordenadores ?? [] as $ordenador)
-                            <option value="{{ $ordenador['id'] }}" {{ data_get($data, 'ordenador_id') == $ordenador['id'] ? 'selected' : '' }}>Nº {{ $ordenador['nombre'] }}</option>
+                            <option value="{{ $ordenador['id'] }}" {{ ($data['ordenador_id'] ?? null) == $ordenador['id'] ? 'selected' : '' }}>Nº {{ $ordenador['nombre'] }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -74,7 +76,7 @@
                     <select name="alumno_id" id="alumno_id" class="form-select">
                         <option value="">Cualquier alumno</option>
                         @foreach($alumnos ?? [] as $alumno)
-                            <option value="{{ $alumno['id'] }}" {{ data_get($data, 'alumno_id') == $alumno['id'] ? 'selected' : '' }}>{{ $alumno['apellidos'] }}, {{ $alumno['nombre'] }}</option>
+                            <option value="{{ $alumno['id'] }}" {{ ($data['alumno_id'] ?? null) == $alumno['id'] ? 'selected' : '' }}>{{ $alumno['apellidos'] }}, {{ $alumno['nombre'] }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -83,7 +85,7 @@
                     <select name="aula_id" id="aula_id" class="form-select">
                         <option value="">Cualquier aula</option>
                         @foreach($aulas ?? [] as $aula)
-                            <option value="{{ $aula['id'] }}" {{ data_get($data, 'aula_id') == $aula['id'] ? 'selected' : '' }}>{{ $aula['nombre'] }}</option>
+                            <option value="{{ $aula['id'] }}" {{ ($data['aula_id'] ?? null) == $aula['id'] ? 'selected' : '' }}>{{ $aula['nombre'] }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -92,13 +94,14 @@
                     <select name="cursos_id" id="cursos_id" class="form-select">
                         <option value="">Cualquier curso</option>
                          @foreach($cursos ?? [] as $curso)
-                            <option value="{{ $curso['id'] }}" {{ data_get($data, 'cursos_id') == $curso['id'] ? 'selected' : '' }}>{{ $curso['nivel'] }} {{ $curso['letra'] }}</option>
+                            <option value="{{ $curso['id'] }}" {{ ($data['cursos_id'] ?? null) == $curso['id'] ? 'selected' : '' }}>{{ $curso['nivel'] }} {{ $curso['letra'] }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3 d-flex gap-2">
+                <div class="col-md-6 d-flex gap-2">
                     <button type="submit" class="btn btn-primary w-100"><i class="bi bi-filter"></i> Filtrar</button>
                     <a href="{{ route('admin.historial') }}" class="btn btn-outline-secondary w-100"><i class="bi bi-eraser"></i> Limpiar</a>
+                    <button type="button" id="exportar-excel" class="btn btn-outline-success w-100"><i class="bi bi-file-earmark-excel"></i> Exportar a Excel</button>
                 </div>
             </form>
         </div>
@@ -108,7 +111,7 @@
         <div class="card-body p-0">
             @if(isset($historial) && count($historial) > 0)
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
+                    <table class="table table-hover align-middle mb-0" id="tabla_historial">
                         <thead class="table-light">
                             <tr>
                                 <th class="ps-4">Ordenador</th>
@@ -122,13 +125,13 @@
                         <tbody>
                             @foreach ($historial as $registro)
                                 <tr>
-                                    <td class="ps-4"><strong>Nº {{ data_get($registro, 'ordenador.nombre') ?? data_get($registro, 'ordenador_nombre') ?? 'Desconocido' }}</strong></td>
-                                    <td>{{ data_get($registro, 'alumno.apellidos') ?? data_get($registro, 'alumno.apellido') ?? data_get($registro, 'alumno_apellido') ?? data_get($registro, 'alumno_apellidos') ?? '' }} {{ data_get($registro, 'alumno.nombre') ?? data_get($registro, 'alumno_nombre') ?? '' }}</td>
-                                    <td>{{ data_get($registro, 'curso.nivel') ?? data_get($registro, 'curso_nivel') ?? '' }} {{ data_get($registro, 'curso.letra') ?? data_get($registro, 'curso_letra') ?? '' }}</td>
-                                    <td>{{ data_get($registro, 'aula.nombre') ?? data_get($registro, 'aula_nombre') ?? 'Desconocido' }}</td>
-                                    <td>{{ data_get($registro, 'profesor') ?? 'Sin profesor' }}</td>
+                                    <td class="ps-4"><strong>Nº {{ $registro->ordenador?->nombre ?? $registro->ordenador_nombre ?? 'Desconocido' }}</strong></td>
+                                    <td>{{ $registro->alumno?->apellidos ?? $registro->alumno?->apellido ?? $registro->alumno_apellidos ?? $registro->alumno_apellido ?? '' }} {{ $registro->alumno?->nombre ?? $registro->alumno_nombre ?? '' }}</td>
+                                    <td>{{ $registro->curso?->nivel ?? $registro->curso_nivel ?? '' }} {{ $registro->curso?->letra ?? $registro->curso_letra ?? '' }}</td>
+                                    <td>{{ $registro->aula?->nombre ?? $registro->aula_nombre ?? 'Desconocido' }}</td>
+                                    <td>{{ $registro->profesor ?? 'Sin profesor' }}</td>
                                     <td>
-                                        @if($date = data_get($registro, 'created_at') ?? data_get($registro, 'fecha'))
+                                        @if($date = $registro->created_at ?? $registro->fecha ?? null)
                                             {{ \Carbon\Carbon::parse($date)->format('d/m/Y H:i') }}
                                         @endif
                                     </td>
@@ -151,6 +154,11 @@
         </div>
     </div>
 </main>
+
+<button id="exportar-excel" class="btn btn-outline-primary">Exportar a excel</button>
+<button id="exportar-pdf" class="btn btn-outline-primary">Exportar a pdf</button>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
@@ -158,6 +166,49 @@
         ['#ordenador_id', '#alumno_id', '#aula_id', '#cursos_id'].forEach(id => {
             new TomSelect(id, { create: false, placeholder: "Buscar..." });
         });
+    });
+
+    
+    document.getElementById("exportar-excel").addEventListener("click", function(){        
+        var tabla = document.getElementById("tabla_historial");
+        if (!tabla) {
+            console.error("Error: No se encontró ningún elemento con el ID 'tabla_historial'.");
+            alert("No hay datos disponibles para exportar.");
+            return;
+        }
+        var wb = XLSX.utils.table_to_book(tabla, { sheet: "Hoja1", raw: false });
+
+        XLSX.writeFile(wb, "historial_exportado.xlsx");
+    });
+
+    document.getElementById("exportar-pdf").addEventListener("click", function() {
+        var elemento = document.getElementById("tabla_historial");
+
+        // Control de seguridad: Verificar que la tabla exista
+        if (!elemento) {
+            console.error("Error: No se encontró la tabla 'tabla_historial'.");
+            alert("No hay datos disponibles para exportar a PDF.");
+            return;
+        }
+
+        // Configuración personalizada del PDF
+        var opciones = {
+            margin:       10,                   // Margen en milímetros (superior, inferior, izquierdo, derecho)
+            filename:     'historial_reporte.pdf',
+            image:        { type: 'jpeg', quality: 0.98 }, // Calidad de captura de la tabla
+            html2canvas:  { 
+                scale: 2,                       // Mayor escala = mejor resolución de texto (evita que se vea borroso)
+                useCORS: true                   // Permite cargar imágenes externas si tu tabla tiene logos
+            },
+            jsPDF:        { 
+                unit: 'mm', 
+                format: 'a4',                   // Formato de hoja estándar
+                orientation: 'portrait'         // 'portrait' (vertical) o 'landscape' (horizontal)
+            }
+        };
+
+        // Ejecutar la conversión y descargar el archivo
+        html2pdf().set(opciones).from(elemento).save();
     });
 </script>
 </body>

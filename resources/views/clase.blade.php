@@ -14,7 +14,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: #0b63a9;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('asignaciones.vista') }}">Panel de Control</a>
+            <a class="navbar-brand" href="{{ route('asignaciones.vista') }}">Gestor de ordenadores</a>
             
             <div class="d-flex align-items-center text-white gap-3">
                 <div class="text-end d-none d-md-block">
@@ -76,6 +76,11 @@
             <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    @elseif(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-x-circle me-2"></i>{{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
     @if(isset($ordenadores))
         <div class="d-flex justify-content-center p-2">
@@ -90,7 +95,7 @@
         </div>
         
         <div class="row">
-            @foreach ($ordenadores as $item)
+            @foreach (collect($ordenadores)->sortBy('nombre', SORT_NATURAL) as $item)
                 <div class="col-md-3 mb-4">
                     <div class="card text-center border-dark h-100 shadow-sm">
                         <div class="card-header text-white" style="background-color: #0b63a9;">
