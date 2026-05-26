@@ -26,7 +26,7 @@ class HistoricoRepository
         foreach($asignaciones as $valor){
             $historico = new Historico();
             $historico->asignacion_id = $valor['asignacion_id'];
-            $historico->profesor = "Profe de prueba";
+            $historico->profesor = auth()->user()->nombre;
             $historico->save();
         }
         return true;

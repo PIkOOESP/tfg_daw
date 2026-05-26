@@ -39,7 +39,7 @@ class IncidenciasRepository
         $incidencia->fecha = Carbon::createFromFormat('Y-m-d H:i:s',$fecha.' '.$hora);
         $incidencia->status = $status;
         $incidencia->resuelto = false;
-        $incidencia->profesor = "Profe de prueba";
+        $incidencia->profesor = auth()->user()->nombre;
         return $incidencia->save();
     }
 
