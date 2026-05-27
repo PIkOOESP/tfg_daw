@@ -16,6 +16,6 @@ class EnsureSSOAuthenticated
         }
 
         // Si NO está autenticado, lo mandamos al Hub, no a una ruta interna
-        return redirect()->away('http://localhost:8000');
+        return redirect()->away('https://happs.cgarcher.dev');
     }
 }
