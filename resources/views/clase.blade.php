@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Clases y Cursos</title>
     <link rel="stylesheet" href="{{ asset('app.css') }}">
+    <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
@@ -15,6 +16,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: #0b63a9;">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('asignaciones.vista') }}">Gestor de ordenadores</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#filtrosHeader" aria-controls="filtrosHeader" aria-expanded="false" aria-label="Navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             
             <div class="d-flex align-items-center text-white gap-3">
                 <div class="text-end d-none d-md-block">

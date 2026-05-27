@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Asignaciones</title>
     <link rel="stylesheet" href="{{ asset('app.css') }}">
+    <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
@@ -101,7 +102,8 @@
                 <div class="col-md-6 d-flex gap-2">
                     <button type="submit" class="btn btn-primary w-100"><i class="bi bi-filter"></i> Filtrar</button>
                     <a href="{{ route('admin.historial') }}" class="btn btn-outline-secondary w-100"><i class="bi bi-eraser"></i> Limpiar</a>
-                    <button type="button" id="exportar-excel" class="btn btn-outline-success w-100"><i class="bi bi-file-earmark-excel"></i> Exportar a Excel</button>
+                    <button type="button" id="exportar-excel" class="btn btn-outline-success w-100"><i class="bi bi-file-earmark-excel"></i> Excel</button>
+                    <button type="button" id="exportar-pdf" class="btn btn-outline-danger w-100"><i class="bi bi-file-earmark-pdf"></i> PDF</button>
                 </div>
             </form>
         </div>
@@ -126,7 +128,7 @@
                             @foreach ($historial as $registro)
                                 <tr>
                                     <td class="ps-4"><strong>Nº {{ $registro->ordenador?->nombre ?? $registro->ordenador_nombre ?? 'Desconocido' }}</strong></td>
-                                    <td>{{ $registro->alumno?->apellidos ?? $registro->alumno?->apellido ?? $registro->alumno_apellidos ?? $registro->alumno_apellido ?? '' }} {{ $registro->alumno?->nombre ?? $registro->alumno_nombre ?? '' }}</td>
+                                    <td>{{ $registro->alumno?->apellidos ?? $registro->alumno?->apellido ?? $registro->alumno_apellidos ?? $registro->alumno_apellido ?? '' }}, {{ $registro->alumno?->nombre ?? $registro->alumno_nombre ?? '' }}</td>
                                     <td>{{ $registro->curso?->nivel ?? $registro->curso_nivel ?? '' }} {{ $registro->curso?->letra ?? $registro->curso_letra ?? '' }}</td>
                                     <td>{{ $registro->aula?->nombre ?? $registro->aula_nombre ?? 'Desconocido' }}</td>
                                     <td>{{ $registro->profesor ?? 'Sin profesor' }}</td>
@@ -155,8 +157,7 @@
     </div>
 </main>
 
-<button id="exportar-excel" class="btn btn-outline-primary">Exportar a excel</button>
-<button id="exportar-pdf" class="btn btn-outline-primary">Exportar a pdf</button>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
