@@ -17,7 +17,7 @@ Route::middleware(['web'])->group(function () {
 
     // --- RUTA PÚBLICA: Login de respaldo ---
     Route::get('/login', function () {
-        return redirect()->away('http://localhost:8000');
+        return redirect()->away('https://happs.cgarcher.dev');
     })->name('login');
 
     // --- RUTAS PROTEGIDAS CON MIDDLEWARE PERSONALIZADO ---
@@ -59,7 +59,7 @@ Route::middleware(['web'])->group(function () {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return redirect()->away('http://localhost:8000/logout-total');
+            return redirect()->away('https://happs.cgarcher.dev/logout-total');
         })->name('logout');
     });
 });
