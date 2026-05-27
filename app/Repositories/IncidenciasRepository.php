@@ -72,6 +72,8 @@ class IncidenciasRepository
             $query->where('incidencias.resuelto', true);
         }
 
+        $query->orderBy('incidencias.fecha', 'desc');
+
         return $query ->paginate(15);
     }
 
