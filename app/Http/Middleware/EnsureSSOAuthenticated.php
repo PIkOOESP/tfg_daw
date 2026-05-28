@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class EnsureSSOAuthenticated
 {
     public function handle(Request $request, Closure $next)
-    {
-        // Si el usuario ya está autenticado, pasa sin problemas
-        if (Auth::check()) {
-            return $next($request);
-        }
-
-        // Si NO está autenticado, lo mandamos al Hub, no a una ruta interna
-        return redirect()->away('https://happs.cgarcher.dev');
+{
+    // Si el usuario está autenticado O es la ruta de entrada del SSO, déjalo pasar.
+    if (Auth::check() || $request->is('auth/sso')) {
+        return $next($request);
     }
+
+    // Si no, lo mandamos al Hub
+    return redirect()->away('https://happs.cgarcher.dev');
+}
 }
