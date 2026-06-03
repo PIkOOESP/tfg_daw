@@ -33,17 +33,22 @@ class SSOController extends Controller
             }
 
             // 3. LÓGICA DE CORRECCIÓN DE ROL SEGURA:
-            $rolRecibido = strtolower($data['rol']);
-            
-            // Lógica de transformación:
-            // - Si es 'superadmin', lo convertimos a 'admin'.
-            // - Si es 'alumno', lo convertimos a 'profesor'.
-            if ($rolRecibido === 'superadmin') {
+            $rolGlobal = strtolower($data['rol_global'] ?? ($data['rol'] ?? 'profesor'));
+            $rolModulo = strtolower($data['rol_modulo'] ?? 'profesor');
+
+            // El rol efectivo dentro de la aplicación lo marca el permiso del módulo
+            $rolFinal = $rolModulo;
+
+            // Si a nivel global llega como superadmin, aquí entra como admin
+            if ($rolGlobal === 'superadmin') {
                 $rolFinal = 'admin';
-            } elseif ($rolRecibido === 'alumno') {
+            }
+
+            // Compatibilidad defensiva
+            if ($rolFinal === 'superadmin') {
+                $rolFinal = 'admin';
+            } elseif ($rolFinal === 'alumno') {
                 $rolFinal = 'profesor';
-            } else {
-                $rolFinal = $rolRecibido;
             }
 
             // Verificamos si el usuario ya existe para proteger su rol si ya es admin
